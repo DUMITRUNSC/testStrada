@@ -133,10 +133,41 @@ h2{font-size:clamp(26px,3.4vw,38px);line-height:1.2}
 }
 @media (prefers-reduced-motion:reduce){.slide{animation:none}.progress i{transition:none}}
 @media print{
-  body{background:#fff;color:#111}
-  body::before,.top,.progress,.foot,.sendbox,.toast,.row button{display:none!important}
-  .stage{padding:0;min-height:0}
-  .row dt{color:#555} .row,.sum-sec h3{border-color:#ddd} .tag{color:#8a6d36}
+  @page{size:A4;margin:2.2cm 2.5cm}
+  body{background:#fff;color:#111;font-size:11pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body::before,.top,.progress,.foot,.sendbox,.toast{display:none!important}
+
+  /* Ocultar botones de UI */
+  .row button,.sum-sec h3 .edit,.actions{display:none!important}
+
+  .stage{padding:0;min-height:0;display:block}
+  .slide{max-width:none;animation:none}
+
+  /* Cabecera del documento */
+  .summary>.num{font-size:8pt;letter-spacing:.22em;color:#8a6d36;margin-bottom:10pt}
+  .summary h1{font-size:20pt;line-height:1.15;margin:0 0 10pt}
+  .summary>.help{font-size:9.5pt;color:#666;margin:0 0 0;max-width:none}
+
+  /* Secciones */
+  .sum-sec{margin-top:22pt;break-before:auto}
+  .sum-sec h3{font-size:12pt;border-color:#ccc;padding-bottom:7pt;margin-bottom:0;display:block}
+  .sum-sec h3 span{display:none}
+
+  /* Filas pregunta/respuesta */
+  .row{
+    display:grid;
+    grid-template-columns:2fr 3fr;
+    gap:6px 16px;
+    padding:7pt 0;
+    border-color:#e5e5e5;
+    break-inside:avoid;
+    page-break-inside:avoid;
+    font-size:9.5pt;
+    line-height:1.45
+  }
+  .row dt{color:#666;font-weight:400}
+  .row dd.no{color:#bbb;font-style:italic}
+  .tag{font-size:8pt;color:#8a6d36;border-color:rgba(138,109,54,.4)}
 }
 
 /* Página por sección */
