@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- ===== CONFIGURACIÓN: pega aquí los datos de tu proyecto de Supabase (Settings → API) ===== -->
+<!-- Pega cada dato entre las comillas de content="". La clave es la "anon public", nunca la "service_role". -->
+<meta name="supabase-url" content="https://xptmlsqwepfksebwdunf.supabase.co">
+<meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwdG1sc3F3ZXBma3NlYndkdW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNjE0MzYsImV4cCI6MjEwNzczNzQzNn0.d3EmFHDV6Mgd1sgBZNgUg3IpyqUjdb_n2tiR5kauHRs">
+<!-- ========================================================================================== -->
+<title>Strada Motor · Información para la nueva web</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#FAF9F6; --ink-2:#FFFFFF; --ink-3:#F2F0EB; --rule:#E7E3DB; --rule-2:#D6D1C7;
+  --paper:#1C1E22; --paper-2:#50545B; --paper-3:#8B8E94;
+  --gold:#A8874A; --gold-2:#8A6C33; --gold-dim:rgba(168,135,74,.10);
+  --serif:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ink);color:var(--paper);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:
+  radial-gradient(1100px 650px at 90% -10%,rgba(200,169,106,.13),transparent 60%),
+  radial-gradient(900px 600px at -10% 110%,rgba(170,185,205,.16),transparent 60%),
+  linear-gradient(180deg,#FFFFFF 0%,#F7F5F1 100%);z-index:-1}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
+::selection{background:var(--gold);color:var(--ink)}
+
+/* Marco */
+.top{position:fixed;top:0;left:0;right:0;z-index:5;padding:22px clamp(20px,5vw,56px);display:flex;justify-content:space-between;align-items:center}
+.brand{font:600 12px/1 var(--sans);letter-spacing:.38em;text-transform:uppercase}
+.brand b{font-weight:500;color:var(--gold)}
+.chapter{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--paper-3)}
+.progress{position:fixed;top:0;left:0;right:0;height:2px;background:var(--rule);z-index:6}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-2) 100%);transition:width .5s cubic-bezier(.2,.7,.2,1)}
+
+.stage{min-height:100vh;min-height:100dvh;display:flex;align-items:center;padding:110px clamp(20px,6vw,72px) 120px}
+.slide{width:100%;max-width:760px;margin:0 auto;animation:in .55s cubic-bezier(.2,.7,.2,1) both}
+@keyframes in{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.slide.back{animation-name:inback}
+@keyframes inback{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:none}}
+
+.num{display:flex;align-items:center;gap:14px;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+.num::after{content:"";height:1px;width:48px;background:var(--gold);opacity:.6}
+h1,h2{font-family:var(--serif);font-weight:600;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(38px,5.8vw,64px);line-height:1.05}
+h1 em{font-style:normal;color:var(--gold)}
+h2{font-size:clamp(26px,3.4vw,38px);line-height:1.2}
+.help{color:var(--paper-2);font-size:16px;margin:14px 0 0;max-width:60ch}
+.pre{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:13px;color:var(--gold-2);background:#F6EFE1;padding:6px 12px;border-radius:999px}
+
+/* Campos */
+.field{margin-top:40px}
+.field input[type=text],.field input[type=email],.field input[type=tel],.field input[type=url],.field textarea{
+  width:100%;background:transparent;border:0;border-bottom:1px solid var(--rule-2);padding:10px 0 14px;font:500 clamp(19px,2.1vw,23px)/1.4 var(--serif);color:var(--paper);transition:border-color .2s}
+.field textarea{resize:none;min-height:56px;overflow:hidden;font-size:clamp(17px,1.9vw,20px)}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--gold)}
+::placeholder{color:#B3AFA7}
+.opts{display:grid;gap:10px;max-width:560px}
+.opts.cols{grid-template-columns:repeat(2,minmax(0,1fr));max-width:none}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt label{display:flex;align-items:center;gap:16px;padding:15px 18px;border:1px solid var(--rule-2);background:var(--ink-2);box-shadow:0 1px 2px rgba(28,30,34,.03);border-radius:8px!important;cursor:pointer;transition:border-color .2s,background .2s;font-size:15.5px;border-radius:2px}
+.opt label:hover{border-color:var(--paper-3)}
+.opt kbd{flex:none;width:26px;height:26px;border-radius:6px!important;display:grid;place-items:center;border:1px solid var(--rule-2);font:500 11px var(--sans);color:var(--paper-3);border-radius:2px;transition:all .2s}
+.opt label .tick{margin-left:auto;width:14px;height:8px;border-left:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(-45deg) scale(0);transition:transform .2s;margin-top:-4px}
+.opt input:checked+label{border-color:var(--gold);background:#FBF6EC}
+.opt input:checked+label .tick{transform:rotate(-45deg) scale(1)}
+.opt input:checked+label kbd{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.opt input:focus-visible+label{outline:1px solid var(--gold);outline-offset:3px}
+.opt.extra label{background:transparent;border-style:dashed;color:var(--paper-2)}
+.opt.extra input:checked+label{border-style:solid;color:var(--paper)}
+.otro{margin-top:14px;max-width:560px}
+.otro[hidden]{display:none}
+.otro input{width:100%;background:var(--ink-2);border:1px solid var(--rule-2);border-radius:8px;padding:13px 16px;font:500 16px var(--sans);color:var(--paper)}
+.otro input:focus{outline:none;border-color:var(--gold)}
+.multi-note{font-size:12px;letter-spacing:.06em;color:var(--paper-3);margin:0 0 14px}
+
+.actions{display:flex;align-items:center;gap:22px;margin-top:44px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;background:var(--paper);color:#fff;padding:15px 26px;font:600 15px/1 var(--sans);letter-spacing:0;border-radius:999px;box-shadow:0 6px 18px rgba(28,30,34,.14);transition:background .2s,transform .2s}
+.btn:hover{background:#34373D}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:var(--ink-2);color:var(--paper);border:1px solid var(--rule-2);box-shadow:none}
+.btn.ghost:hover{border-color:var(--paper-3);background:var(--ink-2);color:var(--paper)}
+.hint{font-size:12px;color:var(--paper-3);letter-spacing:.04em}
+.hint kbd{font:500 11px var(--sans);border:1px solid var(--rule-2);padding:2px 6px;border-radius:2px;margin:0 2px}
+.later{border:0;background:none;color:var(--paper-3);font-size:13px;cursor:pointer;padding:0;text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:5px}
+.later:hover{color:var(--gold-2);text-decoration-color:var(--gold)}
+.later.on{color:var(--gold)}
+
+.foot{position:fixed;bottom:0;left:0;right:0;padding:18px clamp(20px,5vw,56px);display:flex;justify-content:space-between;align-items:center;z-index:5;background:linear-gradient(0deg,var(--ink) 30%,transparent)}
+.arrows{display:flex;gap:6px}
+.arrows button{width:42px;height:42px;border:1px solid var(--rule-2);background:var(--ink-2);color:var(--paper-2);cursor:pointer;border-radius:999px;display:grid;place-items:center;transition:border-color .2s}
+.arrows button:hover:not(:disabled){border-color:var(--gold);color:var(--gold-2)}
+.arrows button:disabled{opacity:.3;cursor:default}
+.arrows svg{width:14px;height:14px}
+.count{font-size:12px;letter-spacing:.14em;color:var(--paper-3);font-variant-numeric:tabular-nums}
+
+/* Portada */
+.cover p.lead{font:400 18px/1.7 var(--sans);color:var(--paper-2);max-width:54ch;margin:30px 0 0}
+.facts{display:flex;gap:40px;margin-top:40px;padding-top:26px;border-top:1px solid var(--rule);flex-wrap:wrap}
+.facts div{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-3)}
+.facts b{display:block;font:600 28px/1.1 var(--serif);letter-spacing:0;text-transform:none;color:var(--paper);margin-bottom:4px}
+
+/* Capítulo */
+.chap h1{font-size:clamp(40px,6.5vw,72px)}
+.chap .roman{font:600 13px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+
+/* Resumen */
+.summary{max-width:860px}
+.sum-sec{margin-top:46px}
+.sum-sec h3{font:600 22px var(--serif);margin:0 0 14px;display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:10px}
+.sum-sec h3 span{font:400 11px var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.row{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:20px;padding:12px 0;border-bottom:1px solid var(--rule);font-size:14.5px}
+.row dt{color:var(--paper-3)}
+.row dd{margin:0;white-space:pre-wrap;word-break:break-word}
+.row dd.no{color:var(--paper-3)}
+.row button{border:0;background:none;color:var(--paper-3);font-size:12px;cursor:pointer;padding:0;margin-left:10px;text-decoration:underline;text-underline-offset:3px}
+.row button:hover{color:var(--gold-2)}
+.tag{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(200,169,106,.4);padding:2px 7px;margin-left:8px;white-space:nowrap;border-radius:2px}
+.sendbox{margin-top:36px;padding:28px;border:1px solid var(--rule);border-radius:14px;background:linear-gradient(135deg,#FFFFFF 0%,#F8F2E6 100%);box-shadow:0 10px 30px rgba(28,30,34,.06)}
+.sendbox p{margin:0 0 20px;color:var(--paper-2);font-weight:300}
+
+.toast{position:fixed;left:50%;bottom:84px;transform:translate(-50%,10px);background:var(--paper);color:#fff;border-radius:999px!important;padding:11px 18px;font-size:13px;letter-spacing:.04em;opacity:0;pointer-events:none;transition:all .25s;z-index:10;border-radius:2px}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:640px){
+  .chapter{display:none}
+  .opts.cols{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr;gap:4px}
+  .hint{display:none}
+  .facts{gap:24px}
+}
+@media (prefers-reduced-motion:reduce){.slide{animation:none}.progress i{transition:none}}
+@media print{
+  body{background:#fff;color:#111}
+  body::before,.top,.progress,.foot,.sendbox,.toast,.row button{display:none!important}
+  .stage{padding:0;min-height:0}
+  .row dt{color:#555} .row,.sum-sec h3{border-color:#ddd} .tag{color:#8a6d36}
+}
+
+/* Página por sección */
+.topright{display:flex;align-items:center;gap:18px}
+.sync{font-size:12px;color:var(--paper-3)}
+.sync.ok::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#2E8B5C;margin-right:6px;vertical-align:1px}
+.sync.err{color:#B4532A}
+.sent{margin-top:18px;padding:14px 16px;border-radius:10px;background:#EAF4EE;color:#245C3F;font-size:15px}
+
+.ol{display:flex;flex-direction:column;gap:2px}
+.ol small{font-size:12.5px;line-height:1.35;color:var(--paper-3)}
+
+.imp{display:inline-block;vertical-align:4px;margin-left:10px;font:600 10.5px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2);background:#F6EFE1;padding:3px 8px;border-radius:999px}
+
+.qlist{counter-reset:q}
+.qblock:not([hidden]){counter-increment:q}
+.qn::before{content:attr(data-sec) "." counter(q)}
+
+.sechead .roman{font:600 13px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.sechead h1{font-size:clamp(36px,5vw,56px)}
+.foot{display:none}
+.stage{padding-bottom:80px}
+
+.stage{align-items:flex-start}
+.sechead{padding-bottom:12px}
+.qlist{margin-top:28px}
+.qblock{display:grid;grid-template-columns:56px minmax(0,1fr);gap:0 8px;padding:38px 0;border-top:1px solid var(--rule)}
+.qblock[hidden]{display:none}
+.qn{font:600 13px var(--sans);color:var(--gold);padding-top:6px;font-variant-numeric:tabular-nums}
+.qblock h2{font-size:clamp(20px,2.3vw,25px);line-height:1.3}
+.qblock .help{font-size:15px;margin-top:8px}
+.qblock .field{margin-top:22px}
+.qblock .later{margin-top:16px}
+.qblock .opt label{padding:12px 16px;font-size:15px}
+.qblock textarea{min-height:52px}
+.secnav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:32px;border-top:1px solid var(--rule)}
+.toc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:44px}
+.toc button{display:flex;align-items:center;gap:12px;text-align:left;border:1px solid var(--rule);background:var(--ink-2);border-radius:10px;padding:12px 14px;font-size:14.5px;cursor:pointer;transition:border-color .2s}
+.toc button:hover{border-color:var(--paper-3)}
+.toc span{font-weight:600;color:var(--gold);width:16px}
+.toc small{margin-left:auto;color:var(--paper-3);font-variant-numeric:tabular-nums}
+.sum-sec h3 .edit{border:0;background:none;font:500 13px var(--sans);letter-spacing:0;text-transform:none;color:var(--paper-3);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.sum-sec h3 .edit:hover{color:var(--paper)}
+@media (max-width:640px){.qblock{grid-template-columns:1fr}.qn{padding:0 0 6px}.toc{grid-template-columns:1fr}.secnav .btn{flex:1;justify-content:center}}
+@media print{.toc,.secnav{display:none!important}}
+
+/* ===== Documento para PDF ===== */
+#printdoc{display:none}
+@media print{
+  @page{size:A4;margin:0}
+  html,body{background:#fff!important}
+  body::before{display:none!important}
+  body>*:not(#printdoc){display:none!important}
+  #printdoc{display:block!important}
+}
+#printdoc{font:400 10pt/1.45 var(--sans);color:#1C1E22;padding:16mm 16mm 14mm}
+#printdoc .pd-brand{font:600 8pt var(--sans);letter-spacing:.38em;text-transform:uppercase}
+#printdoc .pd-brand b{color:#A8874A;font-weight:600}
+#printdoc .pd-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10mm;padding-bottom:5mm;border-bottom:1.5pt solid #1C1E22}
+#printdoc h1{font:600 20pt/1.15 var(--sans);letter-spacing:-.01em;margin:3mm 0 0}
+#printdoc .pd-meta{font-size:8.5pt;color:#50545B;text-align:right;line-height:1.6}
+#printdoc .pd-stats{display:flex;gap:9mm;margin:5mm 0 2mm;font-size:8.5pt;color:#50545B}
+#printdoc .pd-stats b{display:block;font:600 14pt var(--sans);color:#1C1E22}
+#printdoc h2{font:600 12.5pt var(--sans);margin:8mm 0 2mm;padding-bottom:1.5mm;border-bottom:.6pt solid #A8874A;break-after:avoid;page-break-after:avoid}
+#printdoc h2 span{color:#A8874A;margin-right:3mm}
+#printdoc .pd-row{display:grid;grid-template-columns:62mm 1fr;gap:6mm;padding:2.2mm 0;border-bottom:.4pt solid #E3DFD7;break-inside:avoid;page-break-inside:avoid}
+#printdoc .pd-q{color:#50545B}
+#printdoc .pd-a{white-space:pre-wrap;word-break:break-word;font-weight:500}
+#printdoc .pd-a.no{color:#A9A59D;font-weight:400;font-style:italic}
+#printdoc .pd-tag{display:inline-block;margin-left:2mm;font:600 7pt var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#8A6C33;border:.5pt solid #C9B48A;border-radius:2mm;padding:.3mm 1.6mm;vertical-align:1pt}
+#printdoc .pd-foot{margin-top:8mm;font-size:8pt;color:#8B8E94}
+</style>
+</head>
+<body>
+<div class="progress"><i id="bar"></i></div>
+<header class="top">
+  <div class="brand">Strada <b>Motor</b></div>
+  <div class="topright"><span class="sync" id="sync"></span><div class="chapter" id="chap"></div></div>
+</header>
+<main class="stage"><div class="slide" id="slide"></div></main>
+<footer class="foot">
+  <span class="count" id="count"></span>
+  <div class="arrows">
+    <button type="button" id="prev" aria-label="Anterior"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 9l5-5 5 5"/></svg></button>
+    <button type="button" id="next" aria-label="Siguiente"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 5l5 5 5-5"/></svg></button>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const WEB="Lo hemos sacado de vuestra web actual. Revisadlo";
+const PROP="Propuesta nuestra. Cambiad o añadid lo que queráis";
+const CH=[
+ {n:"1",t:"La empresa",s:"Los datos que tienen que salir bien en la web, en Google y en el aviso legal."},
+ {n:"2",t:"Quiénes sois",s:"En la importación el cliente compra confianza antes que un coche."},
+ {n:"3",t:"Qué ofrecéis",s:"Vuestros servicios, los coches que traéis y el cliente que buscáis."},
+ {n:"4",t:"Cómo trabajáis",s:"El proceso, cómo revisáis los coches y cómo llegan a España."},
+ {n:"5",t:"Precio y condiciones",s:"Lo que más pregunta el cliente y lo que decide si os encarga el coche."},
+ {n:"6",t:"Confianza",s:"Pruebas reales de que se puede confiar en vosotros."},
+ {n:"7",t:"Web y Google",s:"Qué tiene que conseguir la web y cómo hacer que aparezca la primera."}
+];
+const SERV=["Buscamos y traemos el coche que pide el cliente","Traemos un coche que el cliente ya ha encontrado","Vendemos coches que ya tenemos en España","Compramos el coche del cliente","Aceptamos su coche como parte del pago","Ofrecemos financiación","Exportamos coches de España a otros países"];
+const SV=SERV.map(x=>x.split("|")[0]);
+const REDES=["Instagram","Facebook","TikTok","YouTube","LinkedIn","coches.net","AutoScout24","Wallapop","Milanuncios","mobile.de"];
+const REDES_PRE={"Instagram":"@strada_motor","AutoScout24":"autoscout24.es/profesionales/strada-motor"};
+const TIPOS=["Deportivos|Porsche 911, BMW M3, Mercedes-AMG GT…","Superdeportivos|Ferrari, Lamborghini, McLaren…","SUV de alta gama|Cayenne, X5 M, G63, Range Rover…","Berlinas y coupés premium|Clase E, Serie 5, A6, Panamera…","Familiares y monovolúmenes|Clase V, Touran, Serie 2 Tourer…","Coches del día a día|Golf, A3, Serie 1, Clase A…","Eléctricos e híbridos|Taycan, Tesla, e-tron, híbridos enchufables…","Clásicos y de colección|Coches de más de 25 años"];
+const MARCAS=["Porsche","Mercedes-Benz / AMG","BMW / M","Audi / RS","Volkswagen","Land Rover / Range Rover","Ferrari","Lamborghini","McLaren","Bentley / Rolls-Royce","Tesla"];
+const Qs=[
+ {c:0,id:"nombre",k:1,q:"Nombre de la empresa",h:"Tal como queréis que aparezca en la web.",type:"text",pre:"Strada Motor",src:WEB},
+ {c:0,id:"razon",k:1,q:"Razón social",h:"Para el aviso legal y la política de privacidad.",type:"text",ph:"Ej.: Strada Motor S.L."},
+ {c:0,id:"cif",k:1,q:"CIF",type:"text"},
+ {c:0,id:"direccion",k:1,q:"¿Dónde atendéis a los clientes?",h:"Ojo: vuestra web dice Alcorcón, pero AutoScout24 muestra otra dirección en Madrid. Escribid la correcta.",type:"text",pre:"C. Valdemorillo, 41, 28925 Alcorcón, Madrid",src:WEB},
+ {c:0,id:"tipo_local",q:"¿Qué hay en esa dirección?",type:"one",o:["Exposición con coches|Se pueden venir a ver coches","Oficina|Se atiende, pero no hay coches expuestos","Solo se atiende con cita|No hay horario de visita abierto"]},
+ {c:0,id:"corregir",q:"¿Hay datos vuestros en internet que estén mal y haya que corregir?",h:"Direcciones antiguas, teléfonos que ya no usáis, fichas duplicadas…",type:"area"},
+ {c:0,id:"telefono",k:1,q:"Teléfono",type:"tel",pre:"+34 682 03 80 80",src:WEB},
+ {c:0,id:"whatsapp",q:"¿Atendéis por WhatsApp?",type:"one",o:["Sí, con el mismo número","Sí, con otro número","No usamos WhatsApp"]},
+ {c:0,id:"whatsapp_num",q:"¿Qué número usáis para WhatsApp?",type:"tel",show:["whatsapp",["Sí, con otro número"]]},
+ {c:0,id:"email",k:1,q:"Email de contacto",h:"Aquí llegarán las solicitudes de la web.",type:"email",pre:"info@stradamotor.com",src:WEB},
+ {c:0,id:"horario",q:"Horario de atención",type:"text",ph:"Ej.: lunes a viernes de 10:00 a 19:00, sábados con cita"},
+ {c:0,id:"redes",q:"¿En qué redes y portales tenéis perfil?",h:"Marcad todos. Al marcar uno os pediremos el nombre del perfil o el enlace.",type:"multi",cols:1,o:REDES,pre:["Instagram","AutoScout24"],src:"Los hemos encontrado en internet. Revisadlo"},
+
+ {c:1,id:"equipo",k:1,q:"¿Quiénes formáis el equipo?",h:"Nombre, cargo y de qué se encarga cada uno.",type:"area",ph:"Ej.: Carlos — fundador — busca y revisa los coches en Alemania"},
+ {c:1,id:"cara",q:"¿Queréis salir en la web?",h:"Ver a las personas que hay detrás da mucha confianza.",type:"one",o:["Sí, con nombre y foto|Lo que más confianza da","Solo con el nombre|Sin foto","Prefiero que no|Hablamos como empresa"]},
+ {c:1,id:"origen",q:"¿Cómo empezó Strada Motor?",h:"Cuándo y por qué. En vuestra web pone que importáis desde 2023.",type:"area"},
+ {c:1,id:"alemania",q:"¿Qué relación tenéis con Alemania?",h:"Si habláis alemán, si viajáis allí, si tenéis proveedores o contactos fijos.",type:"area"},
+
+ {c:2,id:"servicios",k:1,q:"¿Qué hacéis?",h:"Marcad todo lo que hacéis hoy.",type:"multi",cols:1,o:SERV},
+ {c:2,id:"stock",q:"¿Cuántos coches soléis tener a la venta y cada cuánto cambian?",type:"text",show:["servicios",[SV[2]]],ph:"Ej.: entre 5 y 10, cambian cada mes"},
+ {c:2,id:"compra",q:"Cuando compráis el coche de un cliente, ¿cómo lo hacéis?",type:"one",show:["servicios",[SV[3]]],o:["Se lo pagamos nosotros|Le pagamos el coche y lo vendemos después","Lo vendemos por él|El coche sigue siendo suyo hasta que se vende (depósito)","Las dos opciones|Según el caso"]},
+ {c:2,id:"exportacion",q:"¿A qué países exportáis?",type:"text",show:["servicios",[SV[6]]]},
+ {c:2,id:"financ",q:"¿Con qué entidad financiáis y en qué condiciones?",type:"area",show:["servicios",[SV[5]]]},
+ {c:2,id:"principal",k:1,q:"¿Qué queréis vender sobre todo?",h:"Será lo primero que se vea en la web.",type:"one",o:["Buscar y traer coches por encargo","Vender los coches que ya tenemos","Las dos cosas por igual"]},
+ {c:2,id:"tipos",k:1,q:"¿Qué tipo de coches traéis?",type:"multi",cols:1,o:TIPOS},
+ {c:2,id:"marcas",k:1,q:"¿Con qué marcas trabajáis más?",type:"multi",cols:1,o:MARCAS},
+ {c:2,id:"especialidad",k:1,q:"¿Cuál es vuestra especialidad?",h:"La marca, modelo o tipo de coche en el que sois de verdad expertos. Será lo que más destaquemos.",type:"area",ph:"Ej.: Porsche 911 y Cayenne, sobre todo de 2018 en adelante"},
+ {c:2,id:"rango",q:"¿Qué precio suelen tener los coches?",type:"multi",o:["Hasta 50.000 €","De 50.000 a 100.000 €","De 100.000 a 200.000 €","Más de 200.000 €"]},
+ {c:2,id:"limites",q:"¿Qué coches o encargos no queréis?",h:"Por ejemplo: de más de 10 años, de más de 150.000 km, siniestrados, modificados, por debajo de cierto precio…",type:"area"},
+ {c:2,id:"cliente",k:1,q:"¿Cómo es vuestro cliente habitual?",h:"Qué tipo de persona es y qué busca.",type:"area"},
+ {c:2,id:"por_que_si",k:1,q:"¿Por qué os encargan el coche a vosotros?",h:"Lo que os dicen los clientes cuando os eligen.",type:"area"},
+ {c:2,id:"por_que_no",q:"Cuando se os escapa una venta, ¿por qué suele ser?",h:"Precio, plazos, desconfianza, se lo traen ellos mismos…",type:"area"},
+
+ {c:3,id:"proceso",k:1,q:"¿Cómo es el proceso, del primer contacto a la entrega?",h:"Paso a paso, como se lo explicaríais a un cliente.",type:"area",ph:"1. El cliente nos dice qué coche busca…"},
+ {c:3,id:"paises",q:"¿De qué países traéis los coches?",type:"multi",o:["Alemania","Austria","Bélgica","Países Bajos","Francia","Italia","Suiza"]},
+ {c:3,id:"datos_inicio",q:"¿Qué necesitáis saber del cliente para empezar a buscar?",h:"Con esto haremos el formulario de “Encárganos tu coche”.",type:"multi",cols:1,o:["Marca y modelo","Versión o motor","Año mínimo","Kilómetros máximos","Colores","Extras imprescindibles","Presupuesto máximo","Fecha en la que lo quiere","Si entrega su coche a cambio","Si necesita financiación"]},
+ {c:3,id:"opciones",q:"¿Cuántas opciones le enseñáis al cliente y en cuánto tiempo?",type:"text",ph:"Ej.: 3 opciones en 48 horas"},
+ {c:3,id:"plazo",k:1,q:"¿Cuánto se tarda normalmente hasta tener el coche matriculado?",type:"one",o:["2 a 3 semanas","3 a 5 semanas","5 a 8 semanas","Depende mucho de cada caso"]},
+ {c:3,id:"seguimiento",q:"¿Cómo le vais contando al cliente cómo va todo?",type:"multi",o:["WhatsApp con fotos","Llamadas","Email","No hay un seguimiento fijo"]},
+ {c:3,id:"quien_revisa",k:1,q:"¿Quién ve el coche en persona antes de comprarlo?",type:"one",o:["Alguien de nuestro equipo|Viajamos nosotros a verlo","Un socio en Alemania|Una persona de confianza que lo ve por nosotros","Un perito independiente|Una empresa externa como DEKRA o TÜV","Nadie|Se compra por fotos, vídeo y documentos"]},
+ {c:3,id:"socio",q:"¿Quién es vuestro socio y se puede nombrar en la web?",type:"text",show:["quien_revisa",["Un socio en Alemania"]]},
+ {c:3,id:"perito",q:"¿Con qué empresa de peritaje trabajáis?",type:"text",show:["quien_revisa",["Un perito independiente"]]},
+ {c:3,id:"que_revisa",k:1,q:"¿Qué se revisa?",type:"multi",cols:1,o:["Kilómetros reales|Que no estén manipulados","Historial de mantenimiento|Revisiones hechas y dónde","Siniestros y daños|Si ha tenido golpes o accidentes","Pintura|Medición para detectar piezas repintadas","Frenos y neumáticos|Desgaste y estado","Diagnosis electrónica|Lectura de errores de la centralita","Uso en circuito o modificaciones|Si se ha usado en pista o tiene cambios de potencia","Prueba en carretera|Conducirlo antes de comprarlo","Cargas, embargos o robo|Que no tenga deudas ni denuncias"]},
+ {c:3,id:"evidencia",k:1,q:"¿Qué recibe el cliente antes de decidir si lo compra?",type:"multi",o:["Fotos","Vídeo","Informe escrito","Videollamada viendo el coche"]},
+ {c:3,id:"descartes",q:"¿Por qué motivos descartáis un coche?",type:"area"},
+ {c:3,id:"transporte",q:"¿Cómo viaja el coche hasta España?",type:"one",o:["Camión cerrado|Va tapado y más protegido","Camión abierto|Portacoches normal, más barato","Según el coche|O según lo que pida el cliente","Conducido|Alguien lo trae conduciendo con placas temporales"]},
+ {c:3,id:"seguro",q:"¿El transporte va asegurado por el valor total del coche?",type:"one",o:["Sí","En parte","No"]},
+ {c:3,id:"entrega",q:"¿Dónde se entrega el coche?",type:"multi",o:["En nuestras instalaciones","A domicilio en Madrid","A domicilio en toda España"]},
+ {c:3,id:"entrega_coste",q:"¿Cuánto cuesta la entrega a domicilio?",type:"text",show:["entrega",["A domicilio en Madrid","A domicilio en toda España"]],ph:"Ej.: gratis en Madrid, resto de España según distancia"},
+ {c:3,id:"distancia",q:"¿Se puede hacer todo sin venir a vuestras oficinas?",type:"one",o:["Sí, todo a distancia|Firma digital y pagos por transferencia","Casi todo|Pero hay que venir a firmar","No|Hay que venir"]},
+
+ {c:4,id:"titular",k:1,q:"¿Quién compra el coche en Alemania?",h:"Cambia el IVA, quién responde ante el cliente y lo que se puede prometer en la web.",type:"one",o:["Nosotros|Compramos el coche y se lo facturamos al cliente","El cliente|Él es el comprador y nosotros lo gestionamos todo","Depende del caso|Usamos las dos formas"]},
+ {c:4,id:"incluye",k:1,q:"¿Qué incluye el precio final?",type:"multi",cols:1,o:["Búsqueda y negociación","Revisión del coche","Transporte","Seguro del transporte","ITV","Impuesto de matriculación","Matrícula y papeles","Entrega a domicilio","Garantía"]},
+ {c:4,id:"cobro",k:1,q:"¿Cómo cobráis la importación?",type:"one",o:["Precio cerrado|Un único precio con todo incluido","Coche + tarifa fija|Ej.: precio del coche + 2.000 €","Coche + porcentaje|Ej.: precio del coche + 5 %","Depende del caso"]},
+ {c:4,id:"tarifa",k:1,q:"¿Cuánto cobráis, aproximadamente?",h:"No se publicará en la web: es solo para que entendamos vuestro negocio.",type:"text",ph:"Ej.: entre 1.500 y 3.000 € según el coche"},
+ {c:4,id:"cerrado",k:1,q:"¿El cliente sabe el precio final antes de comprar el coche?",type:"one",o:["Sí, cerrado y por escrito|No cambia aunque suban los gastos","Es una estimación|Puede variar con impuestos o transporte","Depende del caso"]},
+ {c:4,id:"senal",k:1,q:"¿Pedís una señal para empezar a buscar?",type:"one",o:["Un porcentaje del precio del coche|Ej.: el 10 %","Una cantidad fija|Ej.: 1.000 €","No pedimos señal"]},
+ {c:4,id:"senal_pct",q:"¿Qué porcentaje?",type:"text",ph:"Ej.: 10 %",show:["senal",["Un porcentaje del precio del coche"]]},
+ {c:4,id:"senal_fija",q:"¿Qué cantidad?",type:"text",ph:"Ej.: 1.000 €",show:["senal",["Una cantidad fija"]]},
+ {c:4,id:"senal_cuando",q:"¿Cuándo se paga la señal?",type:"one",show:["senal",["Un porcentaje del precio del coche","Una cantidad fija"]],o:["Al hacer el encargo|Antes de empezar a buscar","Al elegir el coche|Cuando el cliente da el visto bueno a una opción","Justo antes de comprarlo en Alemania"]},
+ {c:4,id:"senal_echa",k:1,q:"Si el cliente se echa atrás después de que hayáis buscado, ¿qué pasa con la señal?",type:"one",show:["senal",["Un porcentaje del precio del coche","Una cantidad fija"]],o:["Se le devuelve entera","Se le devuelve, menos una parte por el trabajo hecho|Os quedáis una tarifa por la búsqueda","No se le devuelve"]},
+ {c:4,id:"senal_parte",q:"¿Cuánto os quedáis por la búsqueda?",type:"text",ph:"Ej.: 300 € o el 20 % de la señal",show:["senal_echa",["Se le devuelve, menos una parte por el trabajo hecho"]]},
+ {c:4,id:"senal_noencontrado",q:"Y si no encontráis el coche, ¿se devuelve la señal?",type:"one",show:["senal",["Un porcentaje del precio del coche","Una cantidad fija"]],o:["Sí, entera","Sí, menos una parte por el trabajo hecho","No"]},
+ {c:4,id:"sin_senal",q:"Si el cliente se echa atrás después de buscarle, ¿le cobráis algo?",type:"one",show:["senal",["No pedimos señal"]],o:["Sí, una tarifa por la búsqueda","No, no le cobramos nada"]},
+ {c:4,id:"sin_senal_cuanto",q:"¿Cuánto le cobráis?",type:"text",show:["sin_senal",["Sí, una tarifa por la búsqueda"]]},
+ {c:4,id:"pagos",q:"¿Cuándo se paga el resto y a quién?",type:"area"},
+ {c:4,id:"cancelacion",q:"¿Y si el cliente cambia de idea cuando el coche ya está comprado?",type:"area"},
+ {c:4,id:"problemas",k:1,q:"¿Qué pasa si el coche no pasa la revisión o llega con un problema?",type:"area"},
+ {c:4,id:"garantia",k:1,q:"¿Qué garantía dais?",h:"Cuánto dura, qué cubre y quién la da (vosotros o una aseguradora).",type:"area"},
+ {c:4,id:"garantia_fab",q:"Si el coche aún tiene garantía de fábrica, ¿comprobáis que sirve en España?",type:"one",o:["Sí, siempre","Depende de la marca","No lo comprobamos"]},
+ {c:4,id:"docs",q:"¿Qué documentos recibe el cliente?",type:"multi",cols:1,o:["Contrato","Factura","Informe de la revisión","Libro de mantenimiento","Informe de kilómetros e historial","Ficha técnica y permiso de circulación","Documentación alemana original"]},
+
+ {c:5,id:"diferencia",k:1,q:"¿Por qué un cliente debería elegiros a vosotros y no a otro importador?",h:"Con hechos concretos. Por ejemplo: “vemos todos los coches en persona antes de pagarlos”.",type:"area"},
+ {c:5,id:"casos",k:1,q:"Contadnos hasta tres importaciones reales",h:"Para cada una: qué coche, cuánto costaba en España, cuánto le salió al cliente con vosotros y cuánto tardó.",type:"area",ph:"Ej.: Porsche 911 Carrera S 2021 — en España 125.000 € — con nosotros 109.000 € todo incluido — 4 semanas"},
+ {c:5,id:"casos_pub",q:"¿Se pueden publicar esos casos?",type:"one",o:["Sí, con el nombre del cliente","Sí, sin nombre","No"]},
+ {c:5,id:"cifras",q:"¿Tenéis cifras que podamos mostrar?",h:"Coches importados en total, clientes, ahorro medio…",type:"area"},
+ {c:5,id:"resenas",q:"Enlace a vuestra ficha de Google",h:"Para enseñar vuestras reseñas en la web.",type:"url",ph:"https://"},
+ {c:5,id:"fotos_entregas",q:"¿Tenéis fotos de entregas a clientes?",type:"one",o:["Sí, y podemos publicarlas","Sí, pero hay que pedir permiso a los clientes","Todavía no|Las podemos empezar a hacer"]},
+ {c:5,id:"material",q:"¿Qué material tenéis ya?",type:"multi",cols:1,o:["Logo en buena calidad","Colores de la marca","Fotos profesionales","Vídeos","Informes o documentos de ejemplo (sin datos de clientes)"]},
+ {c:5,id:"faq",k:1,q:"¿Qué es lo que más os preguntan los clientes?",h:"Tal y como os lo preguntan. Con esto haremos las preguntas frecuentes.",type:"area"},
+ {c:5,id:"miedos",q:"¿Qué le preocupa al cliente antes de decidirse?",h:"Kilómetros falsos, coches dañados, pagar y que no llegue, la garantía…",type:"area"},
+ {c:5,id:"competencia",q:"¿Con qué otras empresas os comparan?",h:"Nombres o webs.",type:"area"},
+
+ {c:6,id:"accion",k:1,q:"¿Cómo queréis que el cliente pida la llamada?",h:"La web no mostrará precios: su objetivo será que el cliente os pida una llamada para hablar de su coche.",type:"one",o:["Elige día y hora en un calendario|Reserva la llamada él mismo","Deja su teléfono y le llamamos|Vosotros le llamáis lo antes posible","Nos escribe por WhatsApp|Y desde ahí se acuerda la llamada"]},
+ {c:6,id:"llamada_horario",k:1,q:"¿En qué días y horas podéis hacer esas llamadas?",type:"text",ph:"Ej.: lunes a viernes de 10:00 a 14:00 y de 16:00 a 19:00"},
+ {c:6,id:"llamada_que",q:"¿Qué se habla en esa primera llamada?",h:"Qué le preguntáis al cliente, qué le contáis y cuánto suele durar. Así sabremos qué prometer en la web.",type:"area"},
+ {c:6,id:"atencion",q:"¿Quién hace las llamadas y contesta las solicitudes?",type:"text",ph:"Nombre"},
+ {c:6,id:"respuesta",q:"¿En cuánto tiempo podéis responder?",h:"Para poner en la web “te llamamos en menos de X”.",type:"one",o:["Menos de 1 hora","Menos de 2 horas","El mismo día","En 24 horas"]},
+ {c:6,id:"palabras",q:"¿Qué tres palabras definen a Strada Motor?",type:"text",ph:"Ej.: exclusiva, cercana, de confianza"},
+ {c:6,id:"refs",q:"¿Hay alguna web que os guste? ¿Qué os gusta de ella?",h:"De coches o de cualquier otro sector.",type:"area"},
+ {c:6,id:"idiomas",q:"¿En qué idiomas queréis la web?",type:"multi",o:["Español","Inglés","Alemán"]},
+ {c:6,id:"busquedas",k:1,q:"¿Por qué búsquedas de Google queréis que os encuentren?",h:"Son las frases que escribe en Google alguien que todavía no os conoce. Marcad las que encajan con lo que hacéis: cada una puede tener su propia página en la web.",type:"multi",cols:1,o:[
+  "importar coche de Alemania|La búsqueda principal del sector",
+  "comprar coche en Alemania y traerlo a España|Quien ya ha decidido importar",
+  "cuánto cuesta importar un coche de Alemania|Quien todavía está comparando",
+  "empresa para importar coches de Alemania|Quien busca a alguien que se lo haga",
+  "importar coche de Alemania en Madrid|Búsqueda local, la más fácil de ganar",
+  "importar Porsche de Alemania",
+  "importar Mercedes AMG de Alemania",
+  "importar BMW M de Alemania",
+  "importar Audi RS de Alemania",
+  "coches deportivos importados de Alemania",
+  "coches de lujo importados de Alemania",
+  "coches de segunda mano de Alemania en Madrid|Si también vendéis stock"]},
+ {c:6,id:"busquedas_extra",q:"¿Alguna otra búsqueda que os haya traído clientes o que creáis importante?",h:"Escribidla tal y como la buscaría el cliente. Una por línea.",type:"area",ph:"Ej.: importar Porsche 911 GT3 de Alemania"},
+ {c:6,id:"zonas",k:1,q:"¿En qué ciudades o zonas queréis aparecer?",h:"Podemos hacer páginas para cada una.",type:"text",ph:"Ej.: Madrid, toda España, Barcelona, Valencia…"},
+ {c:6,id:"extra",q:"¿Algo más que queráis contarnos?",type:"area",ph:"Opcional"}
+];
+{const i=Qs.findIndex(q=>q.id==="redes");Qs.splice(i+1,0,...REDES.map(r=>({c:0,id:"red_"+r.replace(/\W/g,""),q:"Perfil de "+r,type:"text",ph:"Nombre de usuario o enlace",show:["redes",[r]],...(REDES_PRE[r]?{pre:REDES_PRE[r],src:"Lo hemos encontrado en internet. Revisadlo"}:{})})))}
+Qs.forEach(q=>{if(q.o){q.d={};q.o=q.o.map(o=>{const [l,d]=o.split("|");if(d)q.d[l]=d;return l})}});
+function visible(q){if(!q.show)return true;const [p,vals]=q.show,v=st.a[p];const pq=Qs.find(x=>x.id===p);if(pq&&!visible(pq))return false;return Array.isArray(v)?v.some(x=>vals.includes(x)):vals.includes(v)}
+const VQ=()=>Qs.filter(visible);
+/* Páginas: portada, una por sección, resumen */
+const PAGES=["cover",...CH.map((c,i)=>i),"end"];
+const KEY="strada-cuestionario-online-v1";
+let st={p:0,a:{},u:{}};
+try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(r&&r.a)st=r}catch(e){}
+Qs.forEach(q=>{if(st.a[q.id]===undefined)st.a[q.id]=q.pre??(q.type==="multi"?[]:"")});
+const cfg=n=>{const m=document.querySelector('meta[name="'+n+'"]');return m?m.getAttribute("content").replace(/[\s"'“”‘’«»]/g,""):""};
+const SUPABASE_URL=cfg("supabase-url");
+const SUPABASE_ANON_KEY=cfg("supabase-anon-key");
+const PROYECTO="Strada Motor";
+const ONLINE=!!(SUPABASE_URL&&SUPABASE_ANON_KEY);
+function uuid(){return (crypto.randomUUID?crypto.randomUUID():"10000000-1000-4000-8000-100000000000".replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16)))}
+const qsId=new URLSearchParams(location.search).get("id");
+if(!st.id)st.id=qsId||uuid();
+if(qsId&&qsId!==st.id){st={p:0,a:{},u:{},id:qsId}}
+let syncTimer=null,syncing=false,dirty=false;
+function setSync(t,cls){const el=document.getElementById("sync");if(el){el.textContent=t;el.className="sync "+(cls||"")}}
+async function rpc(fn,body){const r=await fetch(SUPABASE_URL.replace(/\/$/,"")+"/rest/v1/rpc/"+fn,{method:"POST",headers:{"apikey":SUPABASE_ANON_KEY,"Authorization":"Bearer "+SUPABASE_ANON_KEY,"Content-Type":"application/json"},body:JSON.stringify(body)});if(!r.ok)throw new Error(await r.text());const t=await r.text();return t?JSON.parse(t):null}
+async function pushNow(estado){
+  if(!ONLINE)return false;
+  if(syncing){dirty=true;return false}
+  syncing=true;dirty=false;setSync("Guardando…");
+  try{await rpc("guardar_cuestionario",{p_id:st.id,p_proyecto:PROYECTO,p_respuestas:{a:st.a,u:st.u},p_texto:text(),p_estado:estado||(st.sent?"enviado":"borrador")});setSync("Guardado","ok");return true}
+  catch(e){setSync("Sin conexión: se guardará al volver","err");return false}
+  finally{syncing=false;if(dirty){clearTimeout(syncTimer);syncTimer=setTimeout(()=>pushNow(),800)}}
+}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){};if(ONLINE){setSync("Cambios sin guardar…");clearTimeout(syncTimer);syncTimer=setTimeout(()=>pushNow(),1500)}};
+window.addEventListener("online",()=>pushNow());
+window.addEventListener("pagehide",()=>{if(ONLINE&&(syncTimer||dirty)){try{fetch(SUPABASE_URL.replace(/\/$/,"")+"/rest/v1/rpc/guardar_cuestionario",{method:"POST",keepalive:true,headers:{"apikey":SUPABASE_ANON_KEY,"Authorization":"Bearer "+SUPABASE_ANON_KEY,"Content-Type":"application/json"},body:JSON.stringify({p_id:st.id,p_proyecto:PROYECTO,p_respuestas:{a:st.a,u:st.u},p_texto:text(),p_estado:st.sent?"enviado":"borrador"})})}catch(e){}}});
+async function loadRemote(){
+  if(!ONLINE||!qsId)return;
+  try{const r=await rpc("cargar_cuestionario",{p_id:qsId});if(r&&r.a){st.a={...st.a,...r.a};st.u=r.u||{};try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){};render();setSync("Guardado","ok")}}catch(e){}
+}
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const TODAS="Todas las anteriores",NINGUNA="Ninguna",OTRA="Otra (escribidla)",OTRA1="Otra respuesta (escribidla)";
+const isNone=o=>/^(Ninguna|Nada de esto|En ningún sitio)/.test(o);
+function optsOf(q){
+  if(q.type==="one")return [...q.o,OTRA1];
+  const out=[...q.o];
+  if(q.o.filter(o=>!isNone(o)).length>2)out.push(TODAS);
+  if(!q.o.some(isNone))out.push(NINGUNA);
+  out.push(OTRA);return out;
+}
+function valQ(q){
+  const v=st.a[q.id],ot=String(st.a[q.id+"__otro"]||"").trim();
+  const rep=x=>(x===OTRA||x===OTRA1)?("Otra: "+(ot||"(sin especificar)")):x;
+  return Array.isArray(v)?v.map(rep).join(", "):(v?rep(String(v).trim()):"");
+}
+const slide=document.getElementById("slide");
+let dir=1;
+
+function qBlock(q,n){
+  const v=st.a[q.id],uid=q.id;let f;
+  if(q.type==="one"||q.type==="multi"){
+    const t=q.type==="one"?"radio":"checkbox",all=optsOf(q),base=q.o.filter(o=>!isNone(o));
+    const otraOn=Array.isArray(v)?v.includes(OTRA):v===OTRA1;
+    f=`${q.type==="multi"?'<p class="multi-note">Podéis elegir varias</p>':""}<div class="opts ${q.cols?"cols":""}" role="group" aria-labelledby="t_${uid}">${all.map((o,i)=>{
+      const on=o===TODAS?(Array.isArray(v)&&base.length>0&&base.every(b=>v.includes(b))):(Array.isArray(v)?v.includes(o):v===o);
+      const extra=o===TODAS||o===NINGUNA||o===OTRA||o===OTRA1;
+      const d=q.d&&q.d[o];return `<div class="opt ${extra?"extra":""}"><input type="${t}" id="${uid}_${i}" name="${uid}" value="${esc(o)}" ${on?"checked":""}><label for="${uid}_${i}"><span class="ol">${esc(o)}${d?`<small>${esc(d)}</small>`:""}</span><span class="tick"></span></label></div>`}).join("")}</div>
+      <div class="otro" ${otraOn?"":"hidden"}><input type="text" data-otro="${uid}" placeholder="Escribid aquí vuestra respuesta" value="${esc(st.a[uid+"__otro"]||"")}" autocomplete="off" aria-label="Otra respuesta"></div>`;
+  }else if(q.type==="area"){
+    f=`<textarea data-in="${uid}" rows="2" placeholder="${esc(q.ph||"Escribid aquí…")}" aria-labelledby="t_${uid}">${esc(v)}</textarea>`;
+  }else f=`<input data-in="${uid}" type="${q.type}" value="${esc(v)}" placeholder="${esc(q.ph||"Escribid aquí…")}" autocomplete="off" aria-labelledby="t_${uid}">`;
+  return `<article class="qblock" id="q_${uid}" ${visible(q)?"":"hidden"}>
+    <div class="qn" data-sec="${n.split(".")[0]}"></div>
+    <div class="qbody">
+      <h2 id="t_${uid}">${esc(q.q)}${q.k?'<span class="imp">Importante</span>':""}</h2>
+      ${q.h?`<p class="help">${esc(q.h)}</p>`:""}
+      ${q.src&&v===q.pre?`<div class="pre" data-pre="${uid}">${esc(q.src)}</div>`:""}
+      <div class="field">${f}</div>
+      <button type="button" class="later ${st.u[uid]?"on":""}" data-later="${uid}">${st.u[uid]?"✓ Marcado como “no lo sé todavía”":"No lo sé todavía"}</button>
+    </div>
+  </article>`;
+}
+function secProgress(ci){const qs=Qs.filter(q=>q.c===ci&&visible(q));return [qs.filter(q=>valQ(q)||st.u[q.id]).length,qs.length]}
+function render(){
+  const pg=PAGES[st.p];let h="";
+  if(pg==="cover"){
+    h=`<div class="cover"><div class="num">Strada Motor · Nueva web</div>
+      <h1>Información para<br><em>vuestra nueva web</em></h1>
+      <p class="lead">Estamos preparando la nueva web de Strada Motor. Para que sea la mejor de vuestro sector y aparezca en las primeras posiciones de Google, necesitamos conocer bien la empresa: quiénes sois, qué ofrecéis y cómo trabajáis.</p>
+      <p class="lead" style="margin-top:12px">Son ${CH.length} secciones. En cada una veréis todas sus preguntas juntas. Lo que ya aparece en vuestra web actual viene rellenado: solo tenéis que revisarlo. Si alguna no la sabéis, marcad “No lo sé todavía” y seguid. Si vais justos de tiempo, empezad por las marcadas como <b style="color:var(--gold-2)">Importante</b>.</p>
+      <div class="facts"><div><b>${CH.length}</b>secciones</div><div><b>${VQ().length}</b>preguntas</div><div><b>25 min</b>aproximadamente</div></div>
+      <div class="actions"><button class="btn" data-go="1">Empezar <span aria-hidden="true">→</span></button>
+      <span class="hint">Se guarda solo. Podéis dejarlo a medias y seguir otro día.</span></div></div>`;
+  }else if(pg==="end"){
+    const pend=VQ().filter(q=>!valQ(q)&&!st.u[q.id]&&q.id!=="extra").length;
+    h=`<div class="summary"><div class="num">Resumen</div><h1>Revisad vuestras respuestas</h1>
+      <p class="help">Si queréis cambiar algo, pulsad “Editar” en la sección.${pend?` Quedan <b style="color:var(--paper)">${pend}</b> preguntas sin responder. No pasa nada: enviadnos lo que tengáis y lo completamos juntos.`:""}</p>
+      <div class="sendbox" style="margin-top:32px">${ONLINE?`<p>Vuestras respuestas se van guardando solas. Cuando terminéis, pulsad <b style="color:var(--paper);font-weight:600">Enviar respuestas</b> para avisarnos de que está listo. Podréis seguir cambiando cosas después.</p>
+        <div class="actions" style="margin-top:0"><button class="btn" id="send">${st.sent?"Volver a enviar":"Enviar respuestas"}</button><button class="btn ghost" id="pdf">Descargar PDF</button></div>${st.sent?'<div class="sent">✓ Respuestas enviadas. ¡Gracias!</div>':""}<div id="sendmsg"></div>`:`<p>Cuando esté listo, pulsad <b style="color:var(--paper);font-weight:600">Copiar respuestas</b> y enviádnoslo por WhatsApp o por email. También podéis descargarlo en PDF.</p>
+        <div class="actions" style="margin-top:0"><button class="btn" id="copy">Copiar respuestas</button><button class="btn ghost" id="pdf">Descargar PDF</button><button class="btn ghost" id="txt">Descargar texto</button></div>`}</div>
+      ${CH.map((c,ci)=>`<section class="sum-sec"><h3>${esc(c.t)}<button class="edit" data-go="${ci+1}">Editar</button></h3><dl>${VQ().filter(q=>q.c===ci).map(q=>{const v=valQ(q);
+        return `<div class="row"><dt>${esc(q.q)}</dt><dd class="${v?"":"no"}">${v?esc(v):"Sin responder"}${st.u[q.id]?'<span class="tag">Por decidir</span>':""}</dd></div>`}).join("")}</dl></section>`).join("")}
+    </div>`;
+  }else{
+    const c=CH[pg],qs=Qs.filter(q=>q.c===pg);let n=0;
+    h=`<header class="sechead"><div class="roman">Sección ${c.n} de ${CH.length}</div><h1>${esc(c.t)}</h1><p class="help" style="font-size:18px">${esc(c.s)}</p></header>
+      <div class="qlist">${qs.map(q=>qBlock(q,`${c.n}.${++n}`)).join("")}</div>
+      <div class="secnav">
+        <button class="btn ghost" data-go="${st.p-1}">← ${st.p===1?"Inicio":"Sección anterior"}</button>
+        <button class="btn" data-go="${st.p+1}">${pg===CH.length-1?"Revisar y enviar":"Siguiente sección"} <span aria-hidden="true">→</span></button>
+      </div>`;
+  }
+  slide.className="slide"+(dir<0?" back":"");void slide.offsetWidth;
+  slide.innerHTML=h;
+  wire(pg);
+  document.getElementById("bar").style.width=(st.p/(PAGES.length-1)*100)+"%";
+  document.getElementById("count").textContent="";
+  document.getElementById("chap").textContent=typeof pg==="number"?`Sección ${CH[pg].n} · ${CH[pg].t}`:"";
+  document.getElementById("prev").disabled=st.p===0;
+  document.getElementById("next").disabled=st.p===PAGES.length-1;
+  window.scrollTo(0,0);
+}
+function grow(t){t.style.height="auto";t.style.height=t.scrollHeight+"px"}
+function refreshVisibility(){Qs.forEach(q=>{const el=document.getElementById("q_"+q.id);if(el)el.hidden=!visible(q)})}
+function wire(pg){
+  slide.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(+b.dataset.go));
+  if(typeof pg==="number"){
+    slide.querySelectorAll("[data-in]").forEach(inp=>{
+      const q=Qs.find(x=>x.id===inp.dataset.in);
+      if(inp.tagName==="TEXTAREA")grow(inp);
+      inp.addEventListener("input",()=>{st.a[q.id]=inp.value;if(inp.tagName==="TEXTAREA")grow(inp);const p=slide.querySelector(`[data-pre="${q.id}"]`);if(p&&inp.value!==q.pre)p.remove();save()});
+    });
+    slide.querySelectorAll("[data-otro]").forEach(inp=>inp.addEventListener("input",()=>{st.a[inp.dataset.otro+"__otro"]=inp.value;save()}));
+    Qs.filter(q=>q.c===pg&&q.o).forEach(q=>{
+      const boxes=[...slide.querySelectorAll(`input[name="${q.id}"]`)],block=document.getElementById("q_"+q.id);
+      const otroBox=block.querySelector(".otro"),otro=block.querySelector("[data-otro]"),base=q.o.filter(o=>!isNone(o));
+      const showOtro=on=>{otroBox.hidden=!on;if(on)setTimeout(()=>otro.focus(),50)};
+      const by=x=>boxes.find(b=>b.value===x);
+      boxes.forEach(o=>o.addEventListener("change",()=>{
+        if(q.type==="one"){st.a[q.id]=o.value;showOtro(o.value===OTRA1)}
+        else{
+          if(o.value===TODAS){base.forEach(b=>{const el=by(b);if(el)el.checked=o.checked});boxes.forEach(b=>{if(isNone(b.value)||b.value===NINGUNA)b.checked=false})}
+          else if(o.checked&&(isNone(o.value)||o.value===NINGUNA)){boxes.forEach(b=>{if(b!==o)b.checked=false})}
+          else if(o.checked){boxes.forEach(b=>{if(isNone(b.value)||b.value===NINGUNA)b.checked=false})}
+          const t=by(TODAS);if(t)t.checked=base.every(b=>by(b)&&by(b).checked);
+          st.a[q.id]=boxes.filter(b=>b.checked&&b.value!==TODAS).map(b=>b.value);
+          showOtro(st.a[q.id].includes(OTRA));
+        }
+        save();refreshVisibility();
+      }));
+    });
+    slide.querySelectorAll("[data-later]").forEach(b=>b.onclick=()=>{const id=b.dataset.later;st.u[id]=!st.u[id];save();b.classList.toggle("on",st.u[id]);b.textContent=st.u[id]?"✓ Marcado como “no lo sé todavía”":"No lo sé todavía"});
+  }
+  if(pg==="end"){
+    document.getElementById("pdf").onclick=e=>downloadPDF(e.currentTarget);
+    const sb=document.getElementById("send");
+    if(sb)sb.onclick=async()=>{sb.disabled=true;sb.textContent="Enviando…";clearTimeout(syncTimer);
+      const ok=await pushNow("enviado");
+      if(ok){st.sent=true;try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){};render();toast("Respuestas enviadas")}
+      else{sb.disabled=false;sb.textContent="Enviar respuestas";document.getElementById("sendmsg").innerHTML='<div class="sent" style="background:#FBEDE6;color:#8A3B1C">No se han podido enviar ahora. Revisad la conexión y volved a pulsar. Vuestras respuestas no se pierden.</div>'}};
+    if(!document.getElementById("copy"))return;
+    document.getElementById("copy").onclick=copy;
+    document.getElementById("txt").onclick=()=>{const b=new Blob([text()],{type:"text/plain;charset=utf-8"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="strada-motor-informacion-web.txt";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast("Archivo descargado")};
+  }
+}
+function go(n){if(n<0||n>=PAGES.length)return;dir=n>st.p?1:-1;st.p=n;save();render()}
+function text(){
+  const out=["STRADA MOTOR · INFORMACIÓN PARA LA NUEVA WEB",""];
+  CH.forEach((c,ci)=>{out.push(`${c.n}. ${c.t.toUpperCase()}`);VQ().filter(q=>q.c===ci).forEach(q=>{out.push(`— ${q.q}`);out.push(`  ${valQ(q)||"(sin responder)"}${st.u[q.id]?"  [POR DECIDIR]":""}`)});out.push("")});
+  return out.join("\n");
+}
+async function copy(){try{await navigator.clipboard.writeText(text());toast("Copiado. Pegadlo en WhatsApp o en un email")}catch(e){toast("No se pudo copiar. Usad “Descargar texto”")}}
+
+function printDoc(){
+  const qs=VQ(),done=qs.filter(q=>valQ(q)).length,und=qs.filter(q=>st.u[q.id]).length;
+  const fecha=new Date().toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"});
+  const estado=st.sent?"Enviado":"Borrador";
+  document.getElementById("printdoc").innerHTML=`
+    <div class="pd-head"><div><div class="pd-brand">Strada <b>Motor</b></div><h1>Información para la nueva web</h1></div>
+      <div class="pd-meta">${esc(fecha)}<br>Estado: ${estado}</div></div>
+    <div class="pd-stats"><div><b>${done} de ${qs.length}</b>preguntas respondidas</div><div><b>${und}</b>por decidir</div><div><b>${qs.length-done-und}</b>sin responder</div></div>
+    ${CH.map((c,ci)=>`<h2><span>${c.n}</span>${esc(c.t)}</h2>${qs.filter(q=>q.c===ci).map(q=>{const v=valQ(q);
+      return `<div class="pd-row"><div class="pd-q">${esc(q.q)}</div><div class="pd-a ${v?"":"no"}">${v?esc(v):"Sin responder"}${st.u[q.id]?'<span class="pd-tag">Por decidir</span>':""}</div></div>`}).join("")}`).join("")}
+    <div class="pd-foot">Documento generado desde el cuestionario de Strada Motor · ${esc(fecha)}</div>`;
+  const prevTitle=document.title;document.title="Strada Motor - Informacion para la nueva web";
+  setTimeout(()=>{window.print();document.title=prevTitle},50);
+}
+
+function loadScript(src){return new Promise((ok,ko)=>{const e=document.createElement("script");e.src=src;e.onload=ok;e.onerror=ko;document.head.appendChild(e)})}
+async function downloadPDF(btn){
+  const label=btn?btn.textContent:"";if(btn){btn.disabled=true;btn.textContent="Preparando PDF…"}
+  try{
+    if(!window.jspdf){await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js")}
+    const {jsPDF}=window.jspdf,doc=new jsPDF({unit:"mm",format:"a4"});
+    const clean=t=>String(t??"").replace(/[✓→←]/g,"").replace(/[^\u0000-ÿ‘’“”–—…€]/g,"");
+    const W=210,M=16,INK=[28,30,34],SOFT=[80,84,91],GOLD=[168,135,74],LINE=[227,223,215],FAINT=[169,165,157];
+    const qs=VQ(),done=qs.filter(q=>valQ(q)).length,und=qs.filter(q=>st.u[q.id]).length;
+    const fecha=new Date().toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"});
+    // Cabecera
+    doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...INK);doc.setCharSpace(1.6);doc.text("STRADA",M,20);
+    doc.setTextColor(...GOLD);doc.text("MOTOR",M+doc.getTextWidth("STRADA")+6*1.6+3,20);doc.setCharSpace(0);
+    doc.setTextColor(...INK);doc.setFontSize(20);doc.text("Información para la nueva web",M,30);
+    doc.setFont("helvetica","normal");doc.setFontSize(8.5);doc.setTextColor(...SOFT);
+    doc.text(clean(fecha),W-M,20,{align:"right"});doc.text("Estado: "+(st.sent?"Enviado":"Borrador"),W-M,25,{align:"right"});
+    doc.setDrawColor(...INK);doc.setLineWidth(.5);doc.line(M,34,W-M,34);
+    // Resumen
+    const stats=[[done+" de "+qs.length,"preguntas respondidas"],[String(und),"por decidir"],[String(qs.length-done-und),"sin responder"]];
+    let x=M;stats.forEach(([n,l])=>{doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(...INK);doc.text(n,x,43);doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(...SOFT);doc.text(l,x,48);x+=Math.max(doc.getTextWidth(l),30)+12});
+    let y=58;
+    CH.forEach((c,ci)=>{
+      const rows=qs.filter(q=>q.c===ci).map(q=>{const v=valQ(q);return [clean(q.q),v?clean(v)+(st.u[q.id]?"\n(por decidir)":""):(st.u[q.id]?"Por decidir":"Sin responder"),v?1:0]});
+      if(y>255){doc.addPage();y=20}
+      doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(...GOLD);doc.text(c.n,M,y);
+      doc.setTextColor(...INK);doc.text(clean(c.t),M+7,y);doc.setDrawColor(...GOLD);doc.setLineWidth(.3);doc.line(M,y+2,W-M,y+2);
+      doc.autoTable({startY:y+4,margin:{left:M,right:M,top:18,bottom:16},theme:"plain",
+        body:rows.map(r=>[r[0],r[1]]),
+        columnStyles:{0:{cellWidth:66,textColor:SOFT},1:{textColor:INK,fontStyle:"bold"}},
+        styles:{font:"helvetica",fontSize:9,cellPadding:{top:2.2,bottom:2.2,left:0,right:4},lineColor:LINE,lineWidth:{bottom:.2},valign:"top",overflow:"linebreak"},
+        rowPageBreak:"avoid",
+        didParseCell:d=>{const r=rows[d.row.index];if(d.column.index===1&&r&&!r[2]){d.cell.styles.textColor=FAINT;d.cell.styles.fontStyle="italic"}}});
+      y=doc.lastAutoTable.finalY+11;
+    });
+    // Pie con número de página
+    const n=doc.getNumberOfPages();
+    for(let i=1;i<=n;i++){doc.setPage(i);doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...FAINT);doc.text("Strada Motor · Información para la nueva web",M,287);doc.text("Página "+i+" de "+n,W-M,287,{align:"right"})}
+    doc.save("Strada-Motor-Informacion-nueva-web.pdf");
+    toast("PDF descargado");
+  }catch(e){toast("No se pudo crear el PDF; se abre la impresión");printDoc()}
+  finally{if(btn){btn.disabled=false;btn.textContent=label}}
+}
+function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2400)}
+document.getElementById("prev").onclick=()=>go(st.p-1);
+document.getElementById("next").onclick=()=>go(st.p+1);
+if(ONLINE&&!qsId){try{const u=new URL(location.href);u.searchParams.set("id",st.id);history.replaceState(null,"",u)}catch(e){}}
+render();loadRemote();
+</script>
+<div id="printdoc" aria-hidden="true"></div>
+</body>
+</html>
