@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Strada Motor · Información para la nueva web</title>
+  <meta name="supabase-url" content="https://xptmlsqwepfksebwdunf.supabase.co">
+  <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwdG1sc3F3ZXBma3NlYndkdW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNjE0MzYsImV4cCI6MjEwNzczNzQzNn0.d3EmFHDV6Mgd1sgBZNgUg3IpyqUjdb_n2tiR5kauHRs">
+  <meta name="supabase-url" content="https://xptmlsqwepfksebwdunf.supabase.co">
+  <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwdG1sc3F3ZXBma3NlYndkdW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNjE0MzYsImV4cCI6MjEwNzczNzQzNn0.d3EmFHDV6Mgd1sgBZNgUg3IpyqUjdb_n2tiR5kauHRs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -134,40 +138,20 @@ h2{font-size:clamp(26px,3.4vw,38px);line-height:1.2}
 @media (prefers-reduced-motion:reduce){.slide{animation:none}.progress i{transition:none}}
 @media print{
   @page{size:A4;margin:2.2cm 2.5cm}
-  body{background:#fff;color:#111;font-size:11pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  body::before,.top,.progress,.foot,.sendbox,.toast{display:none!important}
-
-  /* Ocultar botones de UI */
-  .row button,.sum-sec h3 .edit,.actions{display:none!important}
-
+  body{background:#fff;color:#111;font-size:11pt}
+  body::before,.top,.progress,.foot,.sendbox,.toast,.actions{display:none!important}
+  .row button,.sum-sec h3 .edit{display:none!important}
   .stage{padding:0;min-height:0;display:block}
   .slide{max-width:none;animation:none}
-
-  /* Cabecera del documento */
-  .summary>.num{font-size:8pt;letter-spacing:.22em;color:#8a6d36;margin-bottom:10pt}
-  .summary h1{font-size:20pt;line-height:1.15;margin:0 0 10pt}
-  .summary>.help{font-size:9.5pt;color:#666;margin:0 0 0;max-width:none}
-
-  /* Secciones */
-  .sum-sec{margin-top:22pt;break-before:auto}
-  .sum-sec h3{font-size:12pt;border-color:#ccc;padding-bottom:7pt;margin-bottom:0;display:block}
+  .sum-sec{margin-top:22pt}
+  .sum-sec h3{font-size:12pt;border-color:#ccc;display:block}
   .sum-sec h3 span{display:none}
-
-  /* Filas pregunta/respuesta */
-  .row{
-    display:grid;
-    grid-template-columns:2fr 3fr;
-    gap:6px 16px;
-    padding:7pt 0;
-    border-color:#e5e5e5;
-    break-inside:avoid;
-    page-break-inside:avoid;
-    font-size:9.5pt;
-    line-height:1.45
-  }
+  .row{display:grid;grid-template-columns:2fr 3fr;gap:5pt 16pt;padding:7pt 0;border-color:#e5e5e5;break-inside:avoid;page-break-inside:avoid;font-size:9.5pt;line-height:1.45}
   .row dt{color:#666;font-weight:400}
   .row dd.no{color:#bbb;font-style:italic}
   .tag{font-size:8pt;color:#8a6d36;border-color:rgba(138,109,54,.4)}
+  h1{font-size:20pt}
+  .summary>.help{font-size:9.5pt;color:#666}
 }
 
 /* Página por sección */
@@ -368,9 +352,10 @@ const KEY="strada-cuestionario-online-v1";
 let st={p:0,a:{},u:{}};
 try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(r&&r.a)st=r}catch(e){}
 Qs.forEach(q=>{if(st.a[q.id]===undefined)st.a[q.id]=q.pre??(q.type==="multi"?[]:"")});
-/* ===== CONFIGURACIÓN: pega aquí los datos de tu proyecto de Supabase (Settings → API) ===== */
-const SUPABASE_URL="https://xptmlsqwepfksebwdunf.supabase.co";
-const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwdG1sc3F3ZXBma3NlYndkdW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNjE0MzYsImV4cCI6MjEwNzczNzQzNn0.d3EmFHDV6Mgd1sgBZNgUg3IpyqUjdb_n2tiR5kauHRs";
+/* Las credenciales se leen de los meta tags del <head> para evitar problemas con comillas */
+function cleanMeta(n){var m=document.querySelector('meta[name="'+n+'"]');return m?m.content.replace(/[“”‘’]/g,function(c){return c==='‘'||c==='“'?'"':"'"}):"";}
+const SUPABASE_URL=cleanMeta("supabase-url");
+const SUPABASE_ANON_KEY=cleanMeta("supabase-anon-key");
 const PROYECTO="Strada Motor";
 /* ========================================================================================== */
 const ONLINE=!!(SUPABASE_URL&&SUPABASE_ANON_KEY);
@@ -434,7 +419,7 @@ function qBlock(q,n){
       ${q.h?`<p class="help">${esc(q.h)}</p>`:""}
       ${q.src&&v===q.pre?`<div class="pre" data-pre="${uid}">${esc(q.src)}</div>`:""}
       <div class="field">${f}</div>
-      <button type=”button” class=”later ${st.u[uid]?”on”:””}” data-later=”${uid}”>${st.u[uid]?'\u2713 Marcado como \u201cno lo s\u00e9 todav\u00eda\u201d':'No lo s\u00e9 todav\u00eda'}</button>
+      <button type="button" class="later ${st.u[uid]?"on":""}" data-later="${uid}">${st.u[uid]?"✓ Marcado como “no lo sé todavía”":"No lo sé todavía"}</button>
     </div>
   </article>`;
 }
@@ -507,10 +492,10 @@ function wire(pg){
         save();refreshVisibility();
       }));
     });
-    slide.querySelectorAll(“[data-later]”).forEach(b=>b.onclick=()=>{const id=b.dataset.later;st.u[id]=!st.u[id];save();b.classList.toggle(“on”,st.u[id]);b.textContent=st.u[id]?'\u2713 Marcado como \u201cno lo s\u00e9 todav\u00eda\u201d':'No lo s\u00e9 todav\u00eda'});
+    slide.querySelectorAll("[data-later]").forEach(b=>b.onclick=()=>{const id=b.dataset.later;st.u[id]=!st.u[id];save();b.classList.toggle("on",st.u[id]);b.textContent=st.u[id]?"✓ Marcado como “no lo sé todavía”":"No lo sé todavía"});
   }
   if(pg==="end"){
-    document.getElementById("pdf").onclick=()=>generarPDF();
+    document.getElementById("pdf").onclick=generarPDF;
     const sb=document.getElementById("send");
     if(sb)sb.onclick=async()=>{sb.disabled=true;sb.textContent="Enviando…";clearTimeout(syncTimer);
       const ok=await pushNow("enviado");
@@ -527,36 +512,57 @@ function text(){
   CH.forEach((c,ci)=>{out.push(`${c.n}. ${c.t.toUpperCase()}`);VQ().filter(q=>q.c===ci).forEach(q=>{out.push(`— ${q.q}`);out.push(`  ${valQ(q)||"(sin responder)"}${st.u[q.id]?"  [POR DECIDIR]":""}`)});out.push("")});
   return out.join("\n");
 }
-async function copy(){try{await navigator.clipboard.writeText(text());toast(“Copiado. Pegadlo en WhatsApp o en un email”)}catch(e){toast('No se pudo copiar. Usad “Descargar texto”')}}
+async function copy(){try{await navigator.clipboard.writeText(text());toast("Copiado. Pegadlo en WhatsApp o en un email")}catch(e){toast("No se pudo copiar. Usad “Descargar texto”")}}
 function generarPDF(){
-  const fecha=new Date().toLocaleDateString(“es-ES”,{day:”2-digit”,month:”long”,year:”numeric”});
-  const e=s=>String(s??””).replace(/[&<>”]/g,c=>({“&”:”&amp;”,”<”:”&lt;”,”>”:”&gt;”,'”':”&quot;”}[c]));
-  const css=`@page{size:A4;margin:2.2cm 2.8cm}*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,-apple-system,”Segoe UI”,sans-serif;font-size:10pt;color:#111;line-height:1.5;background:#fff}.doc-head{padding-bottom:16pt;border-bottom:1.5pt solid #111;margin-bottom:24pt}.brand{font-size:8pt;letter-spacing:.38em;text-transform:uppercase;color:#8a6d36;margin-bottom:6pt}.brand b{font-weight:400}h1{font-size:19pt;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:6pt}.meta{font-size:8pt;color:#999}.section{margin-top:22pt}.sec-head{font-size:7.5pt;letter-spacing:.22em;text-transform:uppercase;color:#8a6d36;padding-bottom:5pt;border-bottom:1pt solid #ddd;margin-bottom:0}.row{display:grid;grid-template-columns:2fr 3fr;gap:5pt 18pt;padding:6pt 0;border-bottom:.5pt solid #eee;break-inside:avoid;page-break-inside:avoid}.q{color:#666;font-size:9pt}.a{font-size:9.5pt;font-weight:500;word-break:break-word}.a.no{color:#bbb;font-style:italic;font-weight:400}.imp{font-size:7pt;letter-spacing:.1em;text-transform:uppercase;color:#8a6d36;background:#f6efe1;padding:1pt 4pt;border-radius:2pt;margin-left:5pt;vertical-align:2pt;white-space:nowrap}.tag{font-size:7pt;letter-spacing:.1em;text-transform:uppercase;color:#8a6d36;border:.5pt solid rgba(138,109,54,.5);padding:1pt 4pt;margin-left:5pt;vertical-align:2pt;white-space:nowrap}`;
-  let rows=””;
-  CH.forEach((c,ci)=>{
-    const qs=VQ().filter(q=>q.c===ci);
+  var fecha=new Date().toLocaleDateString("es-ES",{day:"2-digit",month:"long",year:"numeric"});
+  function he(s){return String(s||"").replace(/[&<>]/g,function(c){return c==="&"?"&amp;":c==="<"?"&lt;":"&gt;";})} 
+  var css=[
+    "@page{size:A4;margin:2.2cm 2.8cm}",
+    "*{box-sizing:border-box;margin:0;padding:0}",
+    "body{font-family:system-ui,sans-serif;font-size:10pt;color:#111;line-height:1.5}",
+    ".dh{padding-bottom:14pt;border-bottom:1.5pt solid #111;margin-bottom:22pt}",
+    ".br{font-size:8pt;letter-spacing:.35em;text-transform:uppercase;color:#8a6d36;margin-bottom:6pt}",
+    "h1{font-size:19pt;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:5pt}",
+    ".mt{font-size:8pt;color:#999}",
+    ".sc{margin-top:20pt}",
+    ".sh{font-size:7.5pt;letter-spacing:.2em;text-transform:uppercase;color:#8a6d36;padding-bottom:4pt;border-bottom:1pt solid #ddd}",
+    ".rw{display:grid;grid-template-columns:2fr 3fr;gap:4pt 16pt;padding:5pt 0;border-bottom:.5pt solid #eee;break-inside:avoid;page-break-inside:avoid}",
+    ".q{color:#666;font-size:9pt}",
+    ".a{font-size:9.5pt;font-weight:500;word-break:break-word}",
+    ".a.no{color:#bbb;font-style:italic;font-weight:400}",
+    ".im{font-size:7pt;letter-spacing:.1em;text-transform:uppercase;color:#8a6d36;background:#f6efe1;padding:1pt 4pt;border-radius:2pt;margin-left:5pt;vertical-align:2pt}",
+    ".tg{font-size:7pt;letter-spacing:.1em;text-transform:uppercase;color:#8a6d36;border:.5pt solid rgba(138,109,54,.5);padding:1pt 4pt;margin-left:5pt;vertical-align:2pt}"
+  ].join("");
+  var rows="";
+  CH.forEach(function(c,ci){
+    var qs=VQ().filter(function(q){return q.c===ci;});
     if(!qs.length)return;
-    rows+=`<div class=”section”><div class=”sec-head”>${e(c.n)}. ${e(c.t)}</div>`;
-    qs.forEach(q=>{
-      const v=valQ(q);
-      rows+=`<div class=”row”><div class=”q”>${e(q.q)}${q.k?'<span class=”imp”>Importante</span>':''}</div><div class=”a${v?'':' no'}”>${v?e(v):'Sin responder'}${st.u[q.id]?'<span class=”tag”>Por decidir</span>':''}</div></div>`;
+    rows+='<div class="sc"><div class="sh">'+he(c.n)+". "+he(c.t)+"</div>";
+    qs.forEach(function(q){
+      var v=valQ(q);
+      var imp=q.k?'<span class="im">Importante</span>':"";
+      var tag=st.u[q.id]?'<span class="tg">Por decidir</span>':"";
+      var ans=v?he(v):"Sin responder";
+      var cls=v?"a":"a no";
+      rows+='<div class="rw"><div class="q">'+he(q.q)+imp+'</div><div class="'+cls+'">'+ans+tag+"</div></div>";
     });
-    rows+=`</div>`;
+    rows+="</div>";
   });
-  const parts=[
-    `<!DOCTYPE html><html lang=”es”><head><meta charset=”utf-8”><title>Strada Motor \xB7 Informaci\xF3n para la nueva web</title><style>`,
+  var html=[
+    "<!DOCTYPE html><html lang=\"es\"><head><meta charset=\"utf-8\"><title>Strada Motor - Informacion para la nueva web</title><style>",
     css,
-    `</style></head><body><div class=”doc-head”><div class=”brand”>Strada <b>Motor</b></div><h1>Informaci\xF3n para<br>la nueva web</h1><div class=”meta”>Generado el `,
-    e(fecha),
-    `</div></div>`,
+    "</style></head><body>",
+    '<div class="dh"><div class="br">Strada Motor</div><h1>Informaci\u00f3n para<br>la nueva web</h1><div class="mt">Generado el ',
+    he(fecha),"</div></div>",
     rows,
-    `</body></html>`
-  ];
-  const blob=new Blob(parts,{type:”text/html;charset=utf-8”});
-  const url=URL.createObjectURL(blob);
-  const w=window.open(url,”_blank”);
-  setTimeout(()=>{if(w)w.print();URL.revokeObjectURL(url)},800);
+    "</body></html>"
+  ].join("");
+  var blob=new Blob([html],{type:"text/html;charset=utf-8"});
+  var url=URL.createObjectURL(blob);
+  var w=window.open(url,"_blank");
+  setTimeout(function(){if(w)w.print();URL.revokeObjectURL(url);},600);
 }
+
 function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2400)}
 document.getElementById("prev").onclick=()=>go(st.p-1);
 document.getElementById("next").onclick=()=>go(st.p+1);
