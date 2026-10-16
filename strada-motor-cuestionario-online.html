@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- ===== CONFIGURACIÓN: pega aquí los datos de tu proyecto de Supabase (Settings → API) ===== -->
+<!-- Pega cada dato entre las comillas de content="". La clave es la "anon public", nunca la "service_role". -->
+<meta name="supabase-url" content="https://xptmlsqwepfksebwdunf.supabase.co">
+<meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwdG1sc3F3ZXBma3NlYndkdW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNjE0MzYsImV4cCI6MjEwNzczNzQzNn0.d3EmFHDV6Mgd1sgBZNgUg3IpyqUjdb_n2tiR5kauHRs">
+<!-- ========================================================================================== -->
 <title>Strada Motor · Información para la nueva web</title>
-  <meta name="supabase-url" content="https://xptmlsqwepfksebwdunf.supabase.co">
-  <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwdG1sc3F3ZXBma3NlYndkdW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNjE0MzYsImV4cCI6MjEwNzczNzQzNn0.d3EmFHDV6Mgd1sgBZNgUg3IpyqUjdb_n2tiR5kauHRs">
-  <meta name="supabase-url" content="https://xptmlsqwepfksebwdunf.supabase.co">
-  <meta name="supabase-anon-key" content="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwdG1sc3F3ZXBma3NlYndkdW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIxNjE0MzYsImV4cCI6MjEwNzczNzQzNn0.d3EmFHDV6Mgd1sgBZNgUg3IpyqUjdb_n2tiR5kauHRs">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -137,21 +138,10 @@ h2{font-size:clamp(26px,3.4vw,38px);line-height:1.2}
 }
 @media (prefers-reduced-motion:reduce){.slide{animation:none}.progress i{transition:none}}
 @media print{
-  @page{size:A4;margin:2.2cm 2.5cm}
-  body{background:#fff;color:#111;font-size:11pt}
-  body::before,.top,.progress,.foot,.sendbox,.toast,.actions{display:none!important}
-  .row button,.sum-sec h3 .edit{display:none!important}
-  .stage{padding:0;min-height:0;display:block}
-  .slide{max-width:none;animation:none}
-  .sum-sec{margin-top:22pt}
-  .sum-sec h3{font-size:12pt;border-color:#ccc;display:block}
-  .sum-sec h3 span{display:none}
-  .row{display:grid;grid-template-columns:2fr 3fr;gap:5pt 16pt;padding:7pt 0;border-color:#e5e5e5;break-inside:avoid;page-break-inside:avoid;font-size:9.5pt;line-height:1.45}
-  .row dt{color:#666;font-weight:400}
-  .row dd.no{color:#bbb;font-style:italic}
-  .tag{font-size:8pt;color:#8a6d36;border-color:rgba(138,109,54,.4)}
-  h1{font-size:20pt}
-  .summary>.help{font-size:9.5pt;color:#666}
+  body{background:#fff;color:#111}
+  body::before,.top,.progress,.foot,.sendbox,.toast,.row button{display:none!important}
+  .stage{padding:0;min-height:0}
+  .row dt{color:#555} .row,.sum-sec h3{border-color:#ddd} .tag{color:#8a6d36}
 }
 
 /* Página por sección */
@@ -197,6 +187,32 @@ h2{font-size:clamp(26px,3.4vw,38px);line-height:1.2}
 .sum-sec h3 .edit:hover{color:var(--paper)}
 @media (max-width:640px){.qblock{grid-template-columns:1fr}.qn{padding:0 0 6px}.toc{grid-template-columns:1fr}.secnav .btn{flex:1;justify-content:center}}
 @media print{.toc,.secnav{display:none!important}}
+
+/* ===== Documento para PDF ===== */
+#printdoc{display:none}
+@media print{
+  @page{size:A4;margin:0}
+  html,body{background:#fff!important}
+  body::before{display:none!important}
+  body>*:not(#printdoc){display:none!important}
+  #printdoc{display:block!important}
+}
+#printdoc{font:400 10pt/1.45 var(--sans);color:#1C1E22;padding:16mm 16mm 14mm}
+#printdoc .pd-brand{font:600 8pt var(--sans);letter-spacing:.38em;text-transform:uppercase}
+#printdoc .pd-brand b{color:#A8874A;font-weight:600}
+#printdoc .pd-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10mm;padding-bottom:5mm;border-bottom:1.5pt solid #1C1E22}
+#printdoc h1{font:600 20pt/1.15 var(--sans);letter-spacing:-.01em;margin:3mm 0 0}
+#printdoc .pd-meta{font-size:8.5pt;color:#50545B;text-align:right;line-height:1.6}
+#printdoc .pd-stats{display:flex;gap:9mm;margin:5mm 0 2mm;font-size:8.5pt;color:#50545B}
+#printdoc .pd-stats b{display:block;font:600 14pt var(--sans);color:#1C1E22}
+#printdoc h2{font:600 12.5pt var(--sans);margin:8mm 0 2mm;padding-bottom:1.5mm;border-bottom:.6pt solid #A8874A;break-after:avoid;page-break-after:avoid}
+#printdoc h2 span{color:#A8874A;margin-right:3mm}
+#printdoc .pd-row{display:grid;grid-template-columns:62mm 1fr;gap:6mm;padding:2.2mm 0;border-bottom:.4pt solid #E3DFD7;break-inside:avoid;page-break-inside:avoid}
+#printdoc .pd-q{color:#50545B}
+#printdoc .pd-a{white-space:pre-wrap;word-break:break-word;font-weight:500}
+#printdoc .pd-a.no{color:#A9A59D;font-weight:400;font-style:italic}
+#printdoc .pd-tag{display:inline-block;margin-left:2mm;font:600 7pt var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#8A6C33;border:.5pt solid #C9B48A;border-radius:2mm;padding:.3mm 1.6mm;vertical-align:1pt}
+#printdoc .pd-foot{margin-top:8mm;font-size:8pt;color:#8B8E94}
 </style>
 </head>
 <body>
@@ -352,12 +368,10 @@ const KEY="strada-cuestionario-online-v1";
 let st={p:0,a:{},u:{}};
 try{const r=JSON.parse(localStorage.getItem(KEY)||"null");if(r&&r.a)st=r}catch(e){}
 Qs.forEach(q=>{if(st.a[q.id]===undefined)st.a[q.id]=q.pre??(q.type==="multi"?[]:"")});
-/* Las credenciales se leen de los meta tags del <head> para evitar problemas con comillas */
-function cleanMeta(n){var m=document.querySelector('meta[name="'+n+'"]');return m?m.content.replace(/[“”‘’]/g,function(c){return c==='‘'||c==='“'?'"':"'"}):"";}
-const SUPABASE_URL=cleanMeta("supabase-url");
-const SUPABASE_ANON_KEY=cleanMeta("supabase-anon-key");
+const cfg=n=>{const m=document.querySelector('meta[name="'+n+'"]');return m?m.getAttribute("content").replace(/[\s"'“”‘’«»]/g,""):""};
+const SUPABASE_URL=cfg("supabase-url");
+const SUPABASE_ANON_KEY=cfg("supabase-anon-key");
 const PROYECTO="Strada Motor";
-/* ========================================================================================== */
 const ONLINE=!!(SUPABASE_URL&&SUPABASE_ANON_KEY);
 function uuid(){return (crypto.randomUUID?crypto.randomUUID():"10000000-1000-4000-8000-100000000000".replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16)))}
 const qsId=new URLSearchParams(location.search).get("id");
@@ -439,8 +453,8 @@ function render(){
     h=`<div class="summary"><div class="num">Resumen</div><h1>Revisad vuestras respuestas</h1>
       <p class="help">Si queréis cambiar algo, pulsad “Editar” en la sección.${pend?` Quedan <b style="color:var(--paper)">${pend}</b> preguntas sin responder. No pasa nada: enviadnos lo que tengáis y lo completamos juntos.`:""}</p>
       <div class="sendbox" style="margin-top:32px">${ONLINE?`<p>Vuestras respuestas se van guardando solas. Cuando terminéis, pulsad <b style="color:var(--paper);font-weight:600">Enviar respuestas</b> para avisarnos de que está listo. Podréis seguir cambiando cosas después.</p>
-        <div class="actions" style="margin-top:0"><button class="btn" id="send">${st.sent?"Volver a enviar":"Enviar respuestas"}</button><button class="btn ghost" id="pdf">Guardar copia en PDF</button></div>${st.sent?'<div class="sent">✓ Respuestas enviadas. ¡Gracias!</div>':""}<div id="sendmsg"></div>`:`<p>Cuando esté listo, pulsad <b style="color:var(--paper);font-weight:600">Copiar respuestas</b> y enviádnoslo por WhatsApp o por email. También podéis guardarlo en PDF.</p>
-        <div class="actions" style="margin-top:0"><button class="btn" id="copy">Copiar respuestas</button><button class="btn ghost" id="pdf">Guardar en PDF</button><button class="btn ghost" id="txt">Descargar texto</button></div>`}</div>
+        <div class="actions" style="margin-top:0"><button class="btn" id="send">${st.sent?"Volver a enviar":"Enviar respuestas"}</button><button class="btn ghost" id="pdf">Descargar PDF</button></div>${st.sent?'<div class="sent">✓ Respuestas enviadas. ¡Gracias!</div>':""}<div id="sendmsg"></div>`:`<p>Cuando esté listo, pulsad <b style="color:var(--paper);font-weight:600">Copiar respuestas</b> y enviádnoslo por WhatsApp o por email. También podéis descargarlo en PDF.</p>
+        <div class="actions" style="margin-top:0"><button class="btn" id="copy">Copiar respuestas</button><button class="btn ghost" id="pdf">Descargar PDF</button><button class="btn ghost" id="txt">Descargar texto</button></div>`}</div>
       ${CH.map((c,ci)=>`<section class="sum-sec"><h3>${esc(c.t)}<button class="edit" data-go="${ci+1}">Editar</button></h3><dl>${VQ().filter(q=>q.c===ci).map(q=>{const v=valQ(q);
         return `<div class="row"><dt>${esc(q.q)}</dt><dd class="${v?"":"no"}">${v?esc(v):"Sin responder"}${st.u[q.id]?'<span class="tag">Por decidir</span>':""}</dd></div>`}).join("")}</dl></section>`).join("")}
     </div>`;
@@ -495,7 +509,7 @@ function wire(pg){
     slide.querySelectorAll("[data-later]").forEach(b=>b.onclick=()=>{const id=b.dataset.later;st.u[id]=!st.u[id];save();b.classList.toggle("on",st.u[id]);b.textContent=st.u[id]?"✓ Marcado como “no lo sé todavía”":"No lo sé todavía"});
   }
   if(pg==="end"){
-    document.getElementById("pdf").onclick=generarPDF;
+    document.getElementById("pdf").onclick=e=>downloadPDF(e.currentTarget);
     const sb=document.getElementById("send");
     if(sb)sb.onclick=async()=>{sb.disabled=true;sb.textContent="Enviando…";clearTimeout(syncTimer);
       const ok=await pushNow("enviado");
@@ -513,61 +527,70 @@ function text(){
   return out.join("\n");
 }
 async function copy(){try{await navigator.clipboard.writeText(text());toast("Copiado. Pegadlo en WhatsApp o en un email")}catch(e){toast("No se pudo copiar. Usad “Descargar texto”")}}
-function generarPDF(){
-  var fecha=new Date().toLocaleDateString("es-ES",{day:"2-digit",month:"long",year:"numeric"});
-  function he(s){return String(s||"").replace(/[&<>]/g,function(c){return c==="&"?"&amp;":c==="<"?"&lt;":"&gt;";})} 
-  var css=[
-    "@page{size:A4;margin:2.2cm 2.8cm}",
-    "*{box-sizing:border-box;margin:0;padding:0}",
-    "body{font-family:system-ui,sans-serif;font-size:10pt;color:#111;line-height:1.5}",
-    ".dh{padding-bottom:14pt;border-bottom:1.5pt solid #111;margin-bottom:22pt}",
-    ".br{font-size:8pt;letter-spacing:.35em;text-transform:uppercase;color:#8a6d36;margin-bottom:6pt}",
-    "h1{font-size:19pt;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:5pt}",
-    ".mt{font-size:8pt;color:#999}",
-    ".sc{margin-top:20pt}",
-    ".sh{font-size:7.5pt;letter-spacing:.2em;text-transform:uppercase;color:#8a6d36;padding-bottom:4pt;border-bottom:1pt solid #ddd}",
-    ".rw{display:grid;grid-template-columns:2fr 3fr;gap:4pt 16pt;padding:5pt 0;border-bottom:.5pt solid #eee;break-inside:avoid;page-break-inside:avoid}",
-    ".q{color:#666;font-size:9pt}",
-    ".a{font-size:9.5pt;font-weight:500;word-break:break-word}",
-    ".a.no{color:#bbb;font-style:italic;font-weight:400}",
-    ".im{font-size:7pt;letter-spacing:.1em;text-transform:uppercase;color:#8a6d36;background:#f6efe1;padding:1pt 4pt;border-radius:2pt;margin-left:5pt;vertical-align:2pt}",
-    ".tg{font-size:7pt;letter-spacing:.1em;text-transform:uppercase;color:#8a6d36;border:.5pt solid rgba(138,109,54,.5);padding:1pt 4pt;margin-left:5pt;vertical-align:2pt}"
-  ].join("");
-  var rows="";
-  CH.forEach(function(c,ci){
-    var qs=VQ().filter(function(q){return q.c===ci;});
-    if(!qs.length)return;
-    rows+='<div class="sc"><div class="sh">'+he(c.n)+". "+he(c.t)+"</div>";
-    qs.forEach(function(q){
-      var v=valQ(q);
-      var imp=q.k?'<span class="im">Importante</span>':"";
-      var tag=st.u[q.id]?'<span class="tg">Por decidir</span>':"";
-      var ans=v?he(v):"Sin responder";
-      var cls=v?"a":"a no";
-      rows+='<div class="rw"><div class="q">'+he(q.q)+imp+'</div><div class="'+cls+'">'+ans+tag+"</div></div>";
-    });
-    rows+="</div>";
-  });
-  var html=[
-    "<!DOCTYPE html><html lang=\"es\"><head><meta charset=\"utf-8\"><title>Strada Motor - Informacion para la nueva web</title><style>",
-    css,
-    "</style></head><body>",
-    '<div class="dh"><div class="br">Strada Motor</div><h1>Informaci\u00f3n para<br>la nueva web</h1><div class="mt">Generado el ',
-    he(fecha),"</div></div>",
-    rows,
-    "</body></html>"
-  ].join("");
-  var blob=new Blob([html],{type:"text/html;charset=utf-8"});
-  var url=URL.createObjectURL(blob);
-  var w=window.open(url,"_blank");
-  setTimeout(function(){if(w)w.print();URL.revokeObjectURL(url);},600);
+
+function printDoc(){
+  const qs=VQ(),done=qs.filter(q=>valQ(q)).length,und=qs.filter(q=>st.u[q.id]).length;
+  const fecha=new Date().toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"});
+  const estado=st.sent?"Enviado":"Borrador";
+  document.getElementById("printdoc").innerHTML=`
+    <div class="pd-head"><div><div class="pd-brand">Strada <b>Motor</b></div><h1>Información para la nueva web</h1></div>
+      <div class="pd-meta">${esc(fecha)}<br>Estado: ${estado}</div></div>
+    <div class="pd-stats"><div><b>${done} de ${qs.length}</b>preguntas respondidas</div><div><b>${und}</b>por decidir</div><div><b>${qs.length-done-und}</b>sin responder</div></div>
+    ${CH.map((c,ci)=>`<h2><span>${c.n}</span>${esc(c.t)}</h2>${qs.filter(q=>q.c===ci).map(q=>{const v=valQ(q);
+      return `<div class="pd-row"><div class="pd-q">${esc(q.q)}</div><div class="pd-a ${v?"":"no"}">${v?esc(v):"Sin responder"}${st.u[q.id]?'<span class="pd-tag">Por decidir</span>':""}</div></div>`}).join("")}`).join("")}
+    <div class="pd-foot">Documento generado desde el cuestionario de Strada Motor · ${esc(fecha)}</div>`;
+  const prevTitle=document.title;document.title="Strada Motor - Informacion para la nueva web";
+  setTimeout(()=>{window.print();document.title=prevTitle},50);
 }
 
+function loadScript(src){return new Promise((ok,ko)=>{const e=document.createElement("script");e.src=src;e.onload=ok;e.onerror=ko;document.head.appendChild(e)})}
+async function downloadPDF(btn){
+  const label=btn?btn.textContent:"";if(btn){btn.disabled=true;btn.textContent="Preparando PDF…"}
+  try{
+    if(!window.jspdf){await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js")}
+    const {jsPDF}=window.jspdf,doc=new jsPDF({unit:"mm",format:"a4"});
+    const clean=t=>String(t??"").replace(/[✓→←]/g,"").replace(/[^\u0000-ÿ‘’“”–—…€]/g,"");
+    const W=210,M=16,INK=[28,30,34],SOFT=[80,84,91],GOLD=[168,135,74],LINE=[227,223,215],FAINT=[169,165,157];
+    const qs=VQ(),done=qs.filter(q=>valQ(q)).length,und=qs.filter(q=>st.u[q.id]).length;
+    const fecha=new Date().toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"});
+    // Cabecera
+    doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(...INK);doc.setCharSpace(1.6);doc.text("STRADA",M,20);
+    doc.setTextColor(...GOLD);doc.text("MOTOR",M+doc.getTextWidth("STRADA")+6*1.6+3,20);doc.setCharSpace(0);
+    doc.setTextColor(...INK);doc.setFontSize(20);doc.text("Información para la nueva web",M,30);
+    doc.setFont("helvetica","normal");doc.setFontSize(8.5);doc.setTextColor(...SOFT);
+    doc.text(clean(fecha),W-M,20,{align:"right"});doc.text("Estado: "+(st.sent?"Enviado":"Borrador"),W-M,25,{align:"right"});
+    doc.setDrawColor(...INK);doc.setLineWidth(.5);doc.line(M,34,W-M,34);
+    // Resumen
+    const stats=[[done+" de "+qs.length,"preguntas respondidas"],[String(und),"por decidir"],[String(qs.length-done-und),"sin responder"]];
+    let x=M;stats.forEach(([n,l])=>{doc.setFont("helvetica","bold");doc.setFontSize(13);doc.setTextColor(...INK);doc.text(n,x,43);doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(...SOFT);doc.text(l,x,48);x+=Math.max(doc.getTextWidth(l),30)+12});
+    let y=58;
+    CH.forEach((c,ci)=>{
+      const rows=qs.filter(q=>q.c===ci).map(q=>{const v=valQ(q);return [clean(q.q),v?clean(v)+(st.u[q.id]?"\n(por decidir)":""):(st.u[q.id]?"Por decidir":"Sin responder"),v?1:0]});
+      if(y>255){doc.addPage();y=20}
+      doc.setFont("helvetica","bold");doc.setFontSize(12);doc.setTextColor(...GOLD);doc.text(c.n,M,y);
+      doc.setTextColor(...INK);doc.text(clean(c.t),M+7,y);doc.setDrawColor(...GOLD);doc.setLineWidth(.3);doc.line(M,y+2,W-M,y+2);
+      doc.autoTable({startY:y+4,margin:{left:M,right:M,top:18,bottom:16},theme:"plain",
+        body:rows.map(r=>[r[0],r[1]]),
+        columnStyles:{0:{cellWidth:66,textColor:SOFT},1:{textColor:INK,fontStyle:"bold"}},
+        styles:{font:"helvetica",fontSize:9,cellPadding:{top:2.2,bottom:2.2,left:0,right:4},lineColor:LINE,lineWidth:{bottom:.2},valign:"top",overflow:"linebreak"},
+        rowPageBreak:"avoid",
+        didParseCell:d=>{const r=rows[d.row.index];if(d.column.index===1&&r&&!r[2]){d.cell.styles.textColor=FAINT;d.cell.styles.fontStyle="italic"}}});
+      y=doc.lastAutoTable.finalY+11;
+    });
+    // Pie con número de página
+    const n=doc.getNumberOfPages();
+    for(let i=1;i<=n;i++){doc.setPage(i);doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.setTextColor(...FAINT);doc.text("Strada Motor · Información para la nueva web",M,287);doc.text("Página "+i+" de "+n,W-M,287,{align:"right"})}
+    doc.save("Strada-Motor-Informacion-nueva-web.pdf");
+    toast("PDF descargado");
+  }catch(e){toast("No se pudo crear el PDF; se abre la impresión");printDoc()}
+  finally{if(btn){btn.disabled=false;btn.textContent=label}}
+}
 function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2400)}
 document.getElementById("prev").onclick=()=>go(st.p-1);
 document.getElementById("next").onclick=()=>go(st.p+1);
 if(ONLINE&&!qsId){try{const u=new URL(location.href);u.searchParams.set("id",st.id);history.replaceState(null,"",u)}catch(e){}}
 render();loadRemote();
 </script>
+<div id="printdoc" aria-hidden="true"></div>
 </body>
 </html>
