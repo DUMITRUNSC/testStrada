@@ -434,7 +434,7 @@ function qBlock(q,n){
       ${q.h?`<p class="help">${esc(q.h)}</p>`:""}
       ${q.src&&v===q.pre?`<div class="pre" data-pre="${uid}">${esc(q.src)}</div>`:""}
       <div class="field">${f}</div>
-      <button type="button" class="later ${st.u[uid]?"on":""}" data-later="${uid}">${st.u[uid]?"✓ Marcado como “no lo sé todavía”":"No lo sé todavía"}</button>
+      <button type=”button” class=”later ${st.u[uid]?”on”:””}” data-later=”${uid}”>${st.u[uid]?'\u2713 Marcado como \u201cno lo s\u00e9 todav\u00eda\u201d':'No lo s\u00e9 todav\u00eda'}</button>
     </div>
   </article>`;
 }
@@ -507,7 +507,7 @@ function wire(pg){
         save();refreshVisibility();
       }));
     });
-    slide.querySelectorAll("[data-later]").forEach(b=>b.onclick=()=>{const id=b.dataset.later;st.u[id]=!st.u[id];save();b.classList.toggle("on",st.u[id]);b.textContent=st.u[id]?"✓ Marcado como “no lo sé todavía”":"No lo sé todavía"});
+    slide.querySelectorAll(“[data-later]”).forEach(b=>b.onclick=()=>{const id=b.dataset.later;st.u[id]=!st.u[id];save();b.classList.toggle(“on”,st.u[id]);b.textContent=st.u[id]?'\u2713 Marcado como \u201cno lo s\u00e9 todav\u00eda\u201d':'No lo s\u00e9 todav\u00eda'});
   }
   if(pg==="end"){
     document.getElementById("pdf").onclick=()=>generarPDF();
@@ -527,7 +527,7 @@ function text(){
   CH.forEach((c,ci)=>{out.push(`${c.n}. ${c.t.toUpperCase()}`);VQ().filter(q=>q.c===ci).forEach(q=>{out.push(`— ${q.q}`);out.push(`  ${valQ(q)||"(sin responder)"}${st.u[q.id]?"  [POR DECIDIR]":""}`)});out.push("")});
   return out.join("\n");
 }
-async function copy(){try{await navigator.clipboard.writeText(text());toast(“Copiado. Pegadlo en WhatsApp o en un email”)}catch(e){toast(“No se pudo copiar. Usad “Descargar texto””)}}
+async function copy(){try{await navigator.clipboard.writeText(text());toast(“Copiado. Pegadlo en WhatsApp o en un email”)}catch(e){toast('No se pudo copiar. Usad “Descargar texto”')}}
 function generarPDF(){
   const fecha=new Date().toLocaleDateString(“es-ES”,{day:”2-digit”,month:”long”,year:”numeric”});
   const e=s=>String(s??””).replace(/[&<>”]/g,c=>({“&”:”&amp;”,”<”:”&lt;”,”>”:”&gt;”,'”':”&quot;”}[c]));
