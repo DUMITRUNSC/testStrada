@@ -510,7 +510,7 @@ function wire(pg){
     slide.querySelectorAll("[data-later]").forEach(b=>b.onclick=()=>{const id=b.dataset.later;st.u[id]=!st.u[id];save();b.classList.toggle("on",st.u[id]);b.textContent=st.u[id]?"✓ Marcado como “no lo sé todavía”":"No lo sé todavía"});
   }
   if(pg==="end"){
-    document.getElementById("pdf").onclick=()=>window.print();
+    document.getElementById("pdf").onclick=()=>generarPDF();
     const sb=document.getElementById("send");
     if(sb)sb.onclick=async()=>{sb.disabled=true;sb.textContent="Enviando…";clearTimeout(syncTimer);
       const ok=await pushNow("enviado");
@@ -527,7 +527,36 @@ function text(){
   CH.forEach((c,ci)=>{out.push(`${c.n}. ${c.t.toUpperCase()}`);VQ().filter(q=>q.c===ci).forEach(q=>{out.push(`— ${q.q}`);out.push(`  ${valQ(q)||"(sin responder)"}${st.u[q.id]?"  [POR DECIDIR]":""}`)});out.push("")});
   return out.join("\n");
 }
-async function copy(){try{await navigator.clipboard.writeText(text());toast("Copiado. Pegadlo en WhatsApp o en un email")}catch(e){toast("No se pudo copiar. Usad “Descargar texto”")}}
+async function copy(){try{await navigator.clipboard.writeText(text());toast(“Copiado. Pegadlo en WhatsApp o en un email”)}catch(e){toast(“No se pudo copiar. Usad “Descargar texto””)}}
+function generarPDF(){
+  const fecha=new Date().toLocaleDateString(“es-ES”,{day:”2-digit”,month:”long”,year:”numeric”});
+  const e=s=>String(s??””).replace(/[&<>”]/g,c=>({“&”:”&amp;”,”<”:”&lt;”,”>”:”&gt;”,'”':”&quot;”}[c]));
+  const css=`@page{size:A4;margin:2.2cm 2.8cm}*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,-apple-system,”Segoe UI”,sans-serif;font-size:10pt;color:#111;line-height:1.5;background:#fff}.doc-head{padding-bottom:16pt;border-bottom:1.5pt solid #111;margin-bottom:24pt}.brand{font-size:8pt;letter-spacing:.38em;text-transform:uppercase;color:#8a6d36;margin-bottom:6pt}.brand b{font-weight:400}h1{font-size:19pt;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:6pt}.meta{font-size:8pt;color:#999}.section{margin-top:22pt}.sec-head{font-size:7.5pt;letter-spacing:.22em;text-transform:uppercase;color:#8a6d36;padding-bottom:5pt;border-bottom:1pt solid #ddd;margin-bottom:0}.row{display:grid;grid-template-columns:2fr 3fr;gap:5pt 18pt;padding:6pt 0;border-bottom:.5pt solid #eee;break-inside:avoid;page-break-inside:avoid}.q{color:#666;font-size:9pt}.a{font-size:9.5pt;font-weight:500;word-break:break-word}.a.no{color:#bbb;font-style:italic;font-weight:400}.imp{font-size:7pt;letter-spacing:.1em;text-transform:uppercase;color:#8a6d36;background:#f6efe1;padding:1pt 4pt;border-radius:2pt;margin-left:5pt;vertical-align:2pt;white-space:nowrap}.tag{font-size:7pt;letter-spacing:.1em;text-transform:uppercase;color:#8a6d36;border:.5pt solid rgba(138,109,54,.5);padding:1pt 4pt;margin-left:5pt;vertical-align:2pt;white-space:nowrap}`;
+  let rows=””;
+  CH.forEach((c,ci)=>{
+    const qs=VQ().filter(q=>q.c===ci);
+    if(!qs.length)return;
+    rows+=`<div class=”section”><div class=”sec-head”>${e(c.n)}. ${e(c.t)}</div>`;
+    qs.forEach(q=>{
+      const v=valQ(q);
+      rows+=`<div class=”row”><div class=”q”>${e(q.q)}${q.k?'<span class=”imp”>Importante</span>':''}</div><div class=”a${v?'':' no'}”>${v?e(v):'Sin responder'}${st.u[q.id]?'<span class=”tag”>Por decidir</span>':''}</div></div>`;
+    });
+    rows+=`</div>`;
+  });
+  const parts=[
+    `<!DOCTYPE html><html lang=”es”><head><meta charset=”utf-8”><title>Strada Motor \xB7 Informaci\xF3n para la nueva web</title><style>`,
+    css,
+    `</style></head><body><div class=”doc-head”><div class=”brand”>Strada <b>Motor</b></div><h1>Informaci\xF3n para<br>la nueva web</h1><div class=”meta”>Generado el `,
+    e(fecha),
+    `</div></div>`,
+    rows,
+    `</body></html>`
+  ];
+  const blob=new Blob(parts,{type:”text/html;charset=utf-8”});
+  const url=URL.createObjectURL(blob);
+  const w=window.open(url,”_blank”);
+  setTimeout(()=>{if(w)w.print();URL.revokeObjectURL(url)},800);
+}
 function toast(t){const el=document.getElementById("toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2400)}
 document.getElementById("prev").onclick=()=>go(st.p-1);
 document.getElementById("next").onclick=()=>go(st.p+1);
